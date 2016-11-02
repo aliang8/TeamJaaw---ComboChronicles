@@ -1,26 +1,21 @@
 import sqlite3 
 import csv    
 
-#========================================================
-f="data/stories.db"
-db = sqlite3.connect(f)
-c = db.cursor()    
+def initializeDatabase():
+    f= "data/stories.db"
+    db = sqlite3.connect(f)
+    c = db.cursor()    
+    q = "CREATE TABLE accounts (user TEXT, pass VARCHAR(60), myStories BLOB, settings BLOB)"
+    c.execute(q)    
+    q = "CREATE TABLE stories (title TEXT, id INTEGER PRIMARY KEY, content BLOB, timestamp TEXT, contributors BLOB)"
+    c.execute(q)
+    db.commit() 
+    db.close()  
 
-f1 = open("data/accounts.csv")
-d1 = csv.DictReader(f1)
+def newEntry(title, entry, username):
+    q = "INSERT TABLE stories %s, %i, %s, %s, %s" %(title, id, entry, date('now'), username)
+    c.execute(q)
 
-q = "CREATE TABLE accounts (user TEXT, pass VARCHAR(60), myStories BLOB, settings BLOB)"
-
-c.execute(q)    
-
-f2 = open("data/stories.csv")
-d2 = csv.DictReader(f2)
-
-q = "CREATE TABLE courses (title TEXT, id INTEGER PRIMARY KEY, entryCount INTEGER, content BLOB, timestamp TEXT, contributors BLOB, currentEdit BOOLEAN)"
-
-c.execute(q)
-#==========================================================
-db.commit() #save changes
-db.close()  #close database
+initializeDatabase()
 
 
