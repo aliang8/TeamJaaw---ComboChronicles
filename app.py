@@ -23,6 +23,17 @@ def logout():
 def newsubmit():
 	return render_template('newsubmit.html', title = "Submit")
 
+@app.route("/posts")
+def posts():
+    return render_template('posts.html')
+    
+@app.route("/account")
+def account():
+    return render_template('account.html')
+
+@app.route("/library")
+def library():
+    return render_template('library.html')
 
 if __name__ == "__main__":
     app.debug = True 
