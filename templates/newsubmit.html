@@ -1,0 +1,16 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+	<h1> Submit a New Story </h1>
+	
+	<form method="POST">
+		Title<br>
+		<input type="text" name="title"><br>
+		Story<br>
+		<textarea name="story" rows="10" cols="30">
+		</textarea>
+		<input type="submit">
+	</form>
+
+{% endblock %}

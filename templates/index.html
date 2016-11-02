@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+
+<html>
+
+	<head>
+		<title> {{ title }} </title>
+		<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='stylesheets/index.css') }}" />
+	</head>
+
+	<body>
+		<ul>
+			{% if flag == "login" %}
+			<li><a href="logout">Logout</a></li>
+			<li><a href="account">Account</a></li>
+			{% endif %}
+			{% if flag != "login" %}
+			<li><a href="login">Login</a></li>
+			{% endif %}
+			<li><a href="library">Library</a></li>
+			<li><a class="active" href="/">Home</a></li>
+			<li style="float:left">ComboChronicles</li>
+		</ul>
+		<br>
+		<br>
+		<br>
+		{% block content %}
+
+		{% endblock %}
+
+	</body>
+
+</html>
