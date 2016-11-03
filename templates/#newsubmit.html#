@@ -4,7 +4,7 @@
 
 	<h1> Submit a New Story </h1>
 	
-	<form action = "\newsubmit" method = "POST">
+	<form method="POST">
 		Title<br>
 		<input type="text" name="title"><br>
 		Story<br>
