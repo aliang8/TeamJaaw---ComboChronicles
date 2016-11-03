@@ -1,22 +1,20 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>
-      Login Page
-    </title>
-  </head>
+{% extends "index.html" %}
 
-  <body>
-    <h3>{{message}}</h3>
-    <form action = "/authenticate/" method = "POST">
-      Enter your username and password: <br>
-      Username and password must be three or more characters. Nothing stupid. <br>
-      Username: <input type = "text" name = "user"><br>
-      Password: <input type = "password" name = "pass"><br>
-      <input type = "submit" name = "login" value = "Login">
-      <input type = "submit" name = "register" value = "Register">
-    </form>
-  </body>
-</html>
+{% block loginact %}class="active"{% endblock %}
+
+{% block content %}
+
+  <h1> Login </h1>
+  
+  <form action = "\newsubmit" method = "POST">
+    Title<br>
+    <input type="text" name="title"><br>
+    Story<br>
+    <textarea name="entry" rows="10" cols="30">
+    </textarea>
+    <input type="submit" name = "submission">
+  </form>
+
+{% endblock %}
 
     

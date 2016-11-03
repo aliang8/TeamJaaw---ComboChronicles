@@ -5,15 +5,15 @@ from flask import Flask, render_template, session, redirect, url_for, request
 
 
 app = Flask(__name__) 
+app.secret_key = '\xe9$=P\nr\xbc\xcd\xa5\xe5I\xba\x86\xeb\x81L+%,\xcb\xcb\xf46d\xf9\x99\x1704\xcd(\xfc'
 
 @app.route("/")
-@app.route("/home")
 def root():
-	return render_template('newsubmit.html', title = "Home")
+	return render_template('home.html', title = "Home")
 
 @app.route("/login")
 def login():
-	return render_template('index.html', title = "Home", flag = "login")
+	return render_template('login.html', title = "Login")
 
 @app.route("/logout")
 def logout():
@@ -27,7 +27,7 @@ def newsubmit():
 		functions.newEntry(title,entry)
 		return redirect(url_for("root"))
 	else:
-		return render_template('newsubmit.html', title = "Submit")
+		return render_template('newsubmit.html', title = "Create Story")
 
 @app.route("/posts")
 def posts():
@@ -35,11 +35,11 @@ def posts():
     
 @app.route("/account")
 def account():
-    return render_template('account.html')
+    return render_template('account.html', title = "My Account")
 
 @app.route("/library")
 def library():
-    return render_template('library.html')
+    return render_template('library.html', title = "Library")
 
 if __name__ == "__main__":
     app.debug = True 
