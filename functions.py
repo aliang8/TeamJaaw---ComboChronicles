@@ -1,18 +1,27 @@
 import sqlite3 
+import csv
 
 USERS = 'data/users.csv'
 ENTRIES = 'data/entries.csv'
 
-def initializeDatabase():
-    f= "data/stories.db"
-    db = sqlite3.connect(f)
-    c = db.cursor()    
-    q = "CREATE TABLE users (user TEXT, pass VARCHAR(60))"
-    c.execute(q)    
-    q = "CREATE TABLE entries (title TEXT, content TEXT)"
-    c.execute(q)
-    db.commit() 
-    db.close()  
+f= "data/stories.db"
+db = sqlite3.connect(f)
+c = db.cursor()    
+c.execute("CREATE TABLE IF NOT EXISTS users (user TEXT, pass VARCHAR(60))")
+c.execute("CREATE TABLE IF NOT EXISTS entries (title TEXT, content TEXT)")
+
+with open('data/users.csv','rb') as u: 
+    file = csv.DictReader(u) 
+    to_db = [(i['user'], i['pass']) for i in file]
+
+with open('data/entries.csv','rb') as e:
+    file = csv.DictReader(e)
+    to_db = [(i['title'], i['content']) for i in file]
+
+c.executemany("INSERT INTO users (user, pass) VALUES (?, ?);", to_db)
+c.executemany("INSERT INTO entries (title, content) VALUES (?, ?);", to_db)
+db.commit()
+db.close()
 
 def newAccount(username, password):
     d = open(USERS,'a')
@@ -26,7 +35,7 @@ def newEntry(title, content):
     d.write(entry)
     d.close()
 
-initializeDatabase()
+
 
 
 
