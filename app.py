@@ -6,7 +6,7 @@ from flask import Flask, render_template, session, redirect, url_for, request
 
 app = Flask(__name__) 
 
-
+@app.route("/")
 @app.route("/home")
 def root():
 	return render_template('newsubmit.html', title = "Home")

@@ -16,10 +16,10 @@ with open('data/users.csv','rb') as u:
 
 with open('data/entries.csv','rb') as e:
     file = csv.DictReader(e)
-    to_db = [(i['title'], i['content']) for i in file]
+    to_db2 = [(i['title'], i['content']) for i in file]
 
 c.executemany("INSERT INTO users (user, pass) VALUES (?, ?);", to_db)
-c.executemany("INSERT INTO entries (title, content) VALUES (?, ?);", to_db)
+c.executemany("INSERT INTO entries (title, content) VALUES (?, ?);", to_db2)
 db.commit()
 db.close()
 
