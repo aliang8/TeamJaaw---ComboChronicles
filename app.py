@@ -39,11 +39,11 @@ def account():
 
 @app.route('/user/<username>')
 def show_user_profile(username):
-    return render_template('account.html', title = "My Account", user = username);
+    return render_template('account.html', title =  username+ "'s Account", user = username);
 
 @app.route('/story/<int:post_id>')
 def show_post(post_id):
-    return render_template('account.html', title = "My Account", postid = post_id)
+    return render_template('post.html', title = "", postid = post_id)
 
 @app.route("/library")
 def library():
