@@ -37,7 +37,7 @@ def returnContributed(username):
     data = c.execute("SELECT DISTINCT storyid FROM entries WHERE entries.contributor == %s ORDER BY timestamp ASC" % (username))
     stories = []
     for item in data:
-	stories.append(item[0])	#Item[0] = storyid
+        stories.append(item[0])	#Item[0] = storyid
     return stories
     
 #Returns one entire story as a string
@@ -45,7 +45,7 @@ def returnStory(storyid):
     data = c.execute("SELECT * FROM entries WHERE entries.storyid == %s ORDER BY entrynum ASC" % (storyid))
     story = []
     for item in data:
-	story.append(item[1]) # Item 1 = Story content of one entry
+        story.append(item[1]) # Item 1 = Story content of one entry
     return story
 
 #Returns a list of all contributors to a story in order
@@ -53,9 +53,17 @@ def returnContributors(storyid):
     data = c.execute("SELECT * FROM entries WHERE entries.storyid == %s ORDER BY entrynum ASC" % (storyid))
     contributors = []
     for item in data:
-	contributors.append(item[3]) #Item[3] = contributor
+        contributors.append(item[3]) #Item[3] = contributor
     return contributors
 
+def returnLatest(numStories):
+    data = c.execute("SELECT DISTINCT storyid FROM entries ORDER BY timestamp ASC LIMIT %s" % numStories)
+    stories = []
+    for item in data:
+        stories.append(item[0])
+
+    return stories
+        
 #==============================================================================================================================================
 
 
@@ -75,19 +83,56 @@ def myStoryList(username):
     allTitles = []
 
     for storyid in myStories:
-	allStories.append(returnStory(storyid))
-	allContributors.append(returnContributors(storyid))
+        allStories.append(returnStory(storyid))
+        allContributors.append(returnContributors(storyid))
 
     	data = c.execute("SELECT * FROM stories WHERE stories.storyid == %s" % (storyid))
-	allTitles.append(data.fetchone()[1]) #First (and only) entry fetch. fetch[1] = title
+        allTitles.append(data.fetchone()[1]) #First (and only) entry fetch. fetch[1] = title
 	
     return (allTitles, allStories, allContributors)
 
-#Returns the list of stories for the main page
-#UNFINISHED
-def menuStories(numStories):
-    #data = c.execute("SELECT ")
+def myStoryListID(username):
+    allIDs = []
+    allTitles = []
+    myStories = returnContributed(username)
 
+    for storyid in myStories:
+        allIDs.append(storyid);
+
+        data = c.execute("SELECT * FROM stories WHERE stories.storyid == %s" % (storyid))
+        allTitles.append(data.fetchone()[1]) #First (and only) entry fetch. fetch[1] = title
+
+    return (allIDs, allTitles)
+
+def myStoryListDict(username):
+    storyDict = {}
+    myStories = returnContributed(username)
+
+    for storyid in myStories:
+        data = c.execute("SELECT * FROM stories WHERE stories.storyid == %s" % (storyid))
+        title = data.fetchone()[1] #First (and only) entry fetch. fetch[1] = title
+        storyDict[storyid] = title
+
+    return storyDict
+    
+    
+#Returns the list of stories for the main page
+def menuStories(numStories):
+    latestStories = returnLatest(numStories)
+    latestEntries = []
+    latestTitles = []
+    
+    for story in latest:
+        data = c.execute("SELECT * FROM entries WHERE story.id == %s ORDER BY entrynum DES" % story)
+        entry = data.fetchone()
+        latestEntries.append(entry[1]) #Entry[1] = content
+
+        data = c.execute("SELECT * FROM stories WHERE story.id == %s" % story)
+        entry = data.fetchone()
+        latestTitles.append(entry[1]) #Entry[1] = title
+
+    return (latestTitles, latestStories,  latestEntries)
+        
 #=============================================================================================================================================
 
 
