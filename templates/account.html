@@ -1,0 +1,22 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+	<h2>Welcome to Your Account</h2>
+		See your recent stories, change your password, and edit your settings here!
+		<br>
+		<br>
+
+		<h3> Your Stories </h3>
+		{% for dict_item in parent_dict %}
+   			{% for key, value in dict_item.items() %}
+      			<h1>Key: {{key}}</h1>
+      			<h2>Value: {{value}}</h2>
+   			{% endfor %}
+		{% endfor %}
+		{% for n in range({{stories|length}}) %}
+			<a href="/story/{{ids[n]}}">{{stories[n]}}</a>
+			<br>
+		{% endfor %}
+
+{% endblock %}

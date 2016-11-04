@@ -1,0 +1,33 @@
+{% extends "index.html" %}
+
+{% block homeact %}class="active"{% endblock %}
+
+{% block content %}
+
+	{% if flag != "login" %}
+		<h2>Welcome to ComboChronicles</h2>
+		A platform on which you can create collaborative stories with your friends and strangers!
+		<br>
+		Get started!
+		<br>
+		<form action="/login" method="GET">
+		<input type="submit" value="Login">
+		</form>
+		<form action="/register" method="GET">
+		<input type="submit" value="Register">
+		</form>  
+	{% endif %}
+
+	{% if flag == "login" %}
+	<h2>Start a Story</h2>
+		<form action="/newsubmit" method="GET">
+			<input type="submit">
+		</form>
+	<br>
+	<br>
+	<h2>Popular Stories</h2>
+	<br>
+	FEED PLACEHOLDER
+	{% endif %}
+
+{% endblock %}
