@@ -11,10 +11,38 @@ app.secret_key = '\xe9$=P\nr\xbc\xcd\xa5\xe5I\xba\x86\xeb\x81L+%,\xcb\xcb\xf46d\
 def root():
 	return render_template('home.html', title = "Home")
 
-@app.route("/login")
-def login():
-	return render_template('login.html', title = "Login")
-
+@app.route("/authenticate", methods = ['POST'])
+def auth():
+    user = request.form['user']
+    pasz = request.form['pass']
+    hashpass = hashlib.sha224(pasz).hexdigest()
+    status = functions.register(user,pasz)
+    if 'login' in request.form:
+        if functions.signin(user,pasz):
+            session['username'] = user
+            return redirect(url_for('root'))
+        else:
+            return render_template('home.html',message = 'Login Failed')
+    else:
+        if status == 1:
+            return render_template('home.html',
+                                   message = 'Registration failed. User already exists.')
+        elif status == 2:
+            return render_template('home.html',
+                                   message = 'Registration failed. Username and password too short.')
+        elif status == 3:
+            return render_template('home.html',
+                                   message = 'Registration failed. Password too short')
+        elif status == 4:
+            return render_template('home.html',
+                                   message = 'Registration failed. Username too short')
+        elif status == 5:
+            return render_template('home.html',
+                                   message = 'Registration failed. Username or password too short')
+        else:
+            return render_template('home.html',
+                                   message = 'Registration successful')
+        
 @app.route("/logout")
 def logout():
 	return redirect(url_for("root"))
