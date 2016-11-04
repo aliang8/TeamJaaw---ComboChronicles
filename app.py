@@ -41,7 +41,7 @@ def account():
 def show_user_profile(username):
     return render_template('account.html', title = "My Account", user = username);
 
-@app.route('/post/<int:post_id>')
+@app.route('/story/<int:post_id>')
 def show_post(post_id):
     return render_template('account.html', title = "My Account", postid = post_id)
 
