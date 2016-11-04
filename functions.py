@@ -1,41 +1,46 @@
 import sqlite3 
-import csv
+import hashlib
 
-USERS = 'data/users.csv'
-ENTRIES = 'data/entries.csv'
-
+#CONNECT DATABASE
 f= "data/stories.db"
 db = sqlite3.connect(f)
-c = db.cursor()    
-c.execute("CREATE TABLE IF NOT EXISTS users (user TEXT, pass VARCHAR(60))")
-c.execute("CREATE TABLE IF NOT EXISTS entries (title TEXT, content TEXT)")
+c = db.cursor()
 
-with open('data/users.csv','rb') as u: 
-    file = csv.DictReader(u) 
-    to_db = [(i['user'], i['pass']) for i in file]
 
-with open('data/entries.csv','rb') as e:
-    file = csv.DictReader(e)
-    to_db2 = [(i['title'], i['content']) for i in file]
 
-c.executemany("INSERT INTO users (user, pass) VALUES (?, ?);", to_db)
-c.executemany("INSERT INTO entries (title, content) VALUES (?, ?);", to_db2)
-db.commit()
-db.close()
+#Initialize databases. Only works once.
+def initializeTables():    
+	c.execute("CREATE TABLE IF NOT EXISTS accounts (user TEXT, pass VARCHAR(60))")
+	c.execute("CREATE TABLE IF NOT EXISTS entries (storyid INTEGER, content TEXT, entrynum INTEGER, contributor TEXT)")
+	c.execute("CREATE TABLE IF NOT EXISTS stories (storyid INTEGER, title TEXT)")
 
+
+#========================================================GENERIC CREATE FUNCTIONS=============================================================
+#Need to add functions that handles all these inputs
 def newAccount(username, password):
-    d = open(USERS,'a')
-    user = "%s,%s\n" %(username,password) 
-    d.write(user)
-    d.close()
+    hashpass = hashlib.sha512(password).hexdigest()
+    c.execute("INSERT INTO accounts VALUES('%s', %s)" % (username, hashpass))
 
-def newEntry(title, content):
-    d = open(ENTRIES,'a')
-    entry = "%s,%s\n" %(title, content)
-    d.write(entry)
-    d.close()
+def newStory(title, storyid, content, contributor):
+    c.execute("INSERT INTO entries VALUES(%s, '%s', %s, '%s')" % (storyid, content, 1, contributor))
+    c.execute("INSERT INTO stories VALUES(%s, '%s')" % (storyid, title))
+
+def newEntry(storyid, content, entrynum, contributor):
+    c.execute("INSERT INTO entries VALUES(%s, '%s', %s, '%s')" % (storyid, content, entrynum, contributor))
+#=============================================================================================================================================
 
 
+#===========================================================DISPLAY FUNCTIONS=================================================================
+
+#Shows all entries and stories that a user has contributed to
+#To be used in My Acccount/My Stories page
+def showEntries(username):
+    data = c.execute("SELECT FROM stories WHERE entries.contributor == %s" % (username))
+
+def menuStories(numStories):
+    data = c.execute("SELECT ")
+
+#=============================================================================================================================================
 
 
 
