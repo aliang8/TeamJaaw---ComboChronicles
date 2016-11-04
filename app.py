@@ -1,6 +1,6 @@
 #!/usr/bin/python
 #Winston Venderbush
-import random, functions
+import random #functions
 from flask import Flask, render_template, session, redirect, url_for, request
 
 
@@ -36,6 +36,14 @@ def posts():
 @app.route("/account")
 def account():
     return render_template('account.html', title = "My Account")
+
+@app.route('/user/<username>')
+def show_user_profile(username):
+    return render_template('account.html', title = "My Account", user = username);
+
+@app.route('/post/<int:post_id>')
+def show_post(post_id):
+    return render_template('account.html', title = "My Account", postid = post_id)
 
 @app.route("/library")
 def library():
