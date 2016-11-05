@@ -87,7 +87,7 @@ def logout():
 @app.route("/newsubmit/", methods=['GET', 'POST'])
 def newsubmit():
 	db = sqlite3.connect(f)
-	c = db.cursor()
+	c = db.cursor()    
 	user = request.cookies.get('username')
 	if request.method == 'POST':
 		title = request.form['title']
@@ -97,7 +97,7 @@ def newsubmit():
 			return redirect(url_for("root"))
 	else:
 		return render_template('newsubmit.html', title = "Create Story")
-
+	
 @app.route("/posts/")
 def posts():
 	return render_template('posts.html')

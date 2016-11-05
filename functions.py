@@ -13,20 +13,20 @@ def initializeTables():
 	c.execute("CREATE TABLE IF NOT EXISTS accounts (user TEXT, pass VARCHAR(60))")
 	c.execute("CREATE TABLE IF NOT EXISTS entries (storyid INTEGER, content TEXT, entrynum INTEGER, contributor TEXT, timestamp INTEGER)")
 	c.execute("CREATE TABLE IF NOT EXISTS stories (storyid INTEGER, title TEXT)")
-
-
+	
+	
 #========================================================GENERIC CREATE FUNCTIONS=============================================================
 #Need to add functions that handles all these inputs
 def newAccount(username, password):
-    hashpass = hashlib.sha512(password).hexdigest()
-    c.execute("INSERT INTO accounts VALUES('%s', %s)" % (username, hashpass))
-
+	hashpass = hashlib.sha512(password).hexdigest()
+	c.execute("INSERT INTO accounts VALUES('%s', %s)" % (username, hashpass))
+	
 def newStory(title, storyid, content, contributor, timestamp):
-    c.execute("INSERT INTO entries VALUES(%s, '%s', %s, '%s', %s)" % (storyid, content, 1, contributor, timestamp))
-    c.execute("INSERT INTO stories VALUES(%s, '%s')" % (storyid, title))
-
+	c.execute("INSERT INTO entries VALUES(%s, '%s', %s, '%s', %s)" % (storyid, content, 1, contributor, timestamp))
+	c.execute("INSERT INTO stories VALUES(%s, '%s')" % (storyid, title))
+	
 def newEntry(storyid, content, entrynum, contributor):
-    c.execute("INSERT INTO entries VALUES(%s, '%s', %s, '%s', %s)" % (storyid, content, entrynum, contributor, timestamp))
+	c.execute("INSERT INTO entries VALUES(%s, '%s', %s, '%s', %s)" % (storyid, content, entrynum, contributor, timestamp))
 #=============================================================================================================================================
 
 
@@ -134,30 +134,6 @@ def menuStories(numStories):
     return (latestTitles, latestStories,  latestEntries)
         
 #=============================================================================================================================================
-
-def signin(username,password):
-    hashpass = hashlib.sha24(password).hexdigest()
-    users = c.execute("SELECT pass FROM users WHERE user == %s" % (username))
-    if users and users[0] == hashpass:
-        return True
-    else:
-        return False
-
-def register(username,password):
-    user = c.execute("SELECT user FROM users WHERE user == %s" % (username))
-    if user:
-        return 1
-    elif len(username) < 3 and len(password) < 3:
-        return 2
-    elif len(password) < 3:
-        return 3
-    elif len(username) < 3:
-        return 4
-    elif not(username.isalum()) or not(password.isalum()):
-        return 5
-    else:
-        c.execute("INSERT INTO users VALUES (%s,%s)" % (username,password))
-        return 6
 
 db.commit()
 db.close()
