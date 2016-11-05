@@ -23,7 +23,7 @@ def authenticate():
 		hashpass = hashlib.sha224(password).hexdigest()
 		if 'login' in request.form:
 			if auth.login(username,password):
-				session['username'] = username
+				session['username'] = user
 				return render_template('home.html',message = 'Login Successful')
 			else:
 				return render_template('home.html',message = 'Login Failed')
