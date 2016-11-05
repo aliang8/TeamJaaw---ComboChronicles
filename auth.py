@@ -4,19 +4,19 @@ import hashlib
 STORIES = 'data/stories.db'
     
 def register(username, password):
+    creds = (username,password,)
     db = sql.connect(STORIES)
     c = db.cursor()
-    users = c.execute("SELECT username FROM accounts WHERE username = ?", (username, )).fetchone()
-    print users
     hashpass = hashlib.sha224(password).hexdigest()
-    if not users:
-        c.execute("INSERT INTO accounts (username,password) VALUES (%s,%s)" % (username,password))
+    users = c.execute("SELECT username FROM accounts WHERE username = ?", (username,))
+    if users != None:
+        c.execute("INSERT INTO accounts (username,password) VALUES (?,?)", creds)
+        db.commit()
+        db.close()
         return True
     else:
         return False
-    db.commmit()
-    db.close()
-
+    
 def login(username,password):
     db = sql.connect(STORIES)
     c = db.cursor()

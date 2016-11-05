@@ -1,4 +1,4 @@
-import random, functions, hashlib, sqlite3, auth
+import random, functions, hashlib, sqlite3, auth, stories
 from flask import Flask, render_template, session, redirect, url_for, request
 from datetime import datetime
 
@@ -9,14 +9,14 @@ f = 'data/stories.db'
 
 @app.route("/", methods = ['POST','GET'])
 def home():
-		return render_template('home.html', title = "ComboChronicles")
+	return render_template('home.html', title = "ComboChronicles")
 
 @app.route("/login/", methods = ['POST','GET'])
 def login():
-		return render_template('login.html', title = "login")
+	return render_template('login.html', title = "login")
 
 @app.route("/authenticate/", methods = ['POST','GET'])
-def authen():
+def authenticate():
 	if request.method == 'POST':
 		username = request.form['user']
 		password = request.form['pass']
@@ -29,28 +29,25 @@ def authen():
 				return render_template('home.html',message = 'Login Failed')
 		else:
 			if auth.register(username,password):
-				return render_template('home.html',message = 'Registration Sucessful')
+				return render_template('home.html',message = 'Registration Successful')
 			else:
 				return render_template('home.html',message = 'Registration Failed')
-	return redirect(url_for("root"))
+	else:
+		return redirect(url_for("home"))
 	
 @app.route("/logout/")
 def logout():
-	return redirect(url_for("root"))
+	return redirect(url_for("home"))
 
-@app.route("/newsubmit/", methods=['GET', 'POST'])
-def newsubmit():
-	db = sqlite3.connect(f)
-	c = db.cursor()    
-	user = request.cookies.get('username')
+@app.route("/newentry/", methods=['GET', 'POST'])
+def newentry():
 	if request.method == 'POST':
 		title = request.form['title']
 		entry = request.form['entry']
-		if 'submission' in request.form:
-			functions.newStory(title,1,entry,user,datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
-			return redirect(url_for("root"))
+		stories.newEntry(title,entry)
+		return redirect(url_for("newentry"))
 	else:
-		return render_template('newsubmit.html', title = "Create Story")
+		return render_template('newentry.html', title = "Create Story")
 	
 @app.route("/posts/")
 def posts():
@@ -58,11 +55,11 @@ def posts():
 	
 @app.route("/account/")
 def account():
-	return render_template('account.html', flag="login", title = "My Account", userstories = functions.myStoryListDict(session['username']))
+	return render_template('account.html', title = "My Account")
 
 @app.route('/user/<username>/')
 def show_user_profile(username):
-	return render_template('account.html', title =  username+ "'s Account", user = username, userstories = functions.myStoryListDict(username));
+	return render_template('account.html', title =  username+ "'s Account", user = username);
 
 @app.route('/story/<int:post_id>/')
 def show_post(post_id):

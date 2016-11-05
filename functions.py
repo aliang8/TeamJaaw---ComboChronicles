@@ -1,32 +1,25 @@
-import sqlite3 
+import sqlite3 as sql 
 import hashlib
 
 #CONNECT DATABASE
 f= "data/stories.db"
-db = sqlite3.connect(f)
+db = sql.connect(f)
 c = db.cursor()
-
-
 
 #Initialize databases. Only works once.
 def initializeTables():    
-	c.execute("CREATE TABLE IF NOT EXISTS accounts (id INTEGER PRIMARY KEY autoincrement, username TEXT NOT NULL, password VARCHAR(60) NOT NULL)")
-	c.execute("CREATE TABLE IF NOT EXISTS entries (storyid INTEGER, content TEXT, entrynum INTEGER, contributor TEXT, timestamp INTEGER)")
-	c.execute("CREATE TABLE IF NOT EXISTS stories (storyid INTEGER, title TEXT)")
+	c.execute("CREATE TABLE IF NOT EXISTS accounts (id INTEGER PRIMARY KEY autoincrement, username TEXT NOT NULL, password TEXT NOT NULL)")
+	c.execute("CREATE TABLE IF NOT EXISTS entries (entryID INTEGER PRIMARY KEY autoincrement, title TEXT NOT NULL, content TEXT NOT NULL)")
 	
 	
 #========================================================GENERIC CREATE FUNCTIONS=============================================================
-#Need to add functions that handles all these inputs
-def newAccount(username, password):
-	hashpass = hashlib.sha512(password).hexdigest()
-	c.execute("INSERT INTO accounts VALUES('%s', %s)" % (username, hashpass))
-	
 def newStory(title, storyid, content, contributor, timestamp):
+	db = sql.connect(f)
+	c = db.cursor()
 	c.execute("INSERT INTO entries VALUES(%s, '%s', %s, '%s', %s)" % (storyid, content, 1, contributor, timestamp))
 	c.execute("INSERT INTO stories VALUES(%s, '%s')" % (storyid, title))
-	
-def newEntry(storyid, content, entrynum, contributor):
-	c.execute("INSERT INTO entries VALUES(%s, '%s', %s, '%s', %s)" % (storyid, content, entrynum, contributor, timestamp))
+	db.commit()
+	db.close()
 #=============================================================================================================================================
 
 
