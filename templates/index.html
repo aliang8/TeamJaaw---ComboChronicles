@@ -11,12 +11,12 @@
 		<ul>
 			{% if flag == "login" %}
 			<li><a href="logout">Logout</a></li>
-			<li><a {% block accountact %}{% endblock %} href="account">Account</a></li>
+			<li><a {% block accountact %}{% endblock %} href="/account">Account</a></li>
 			{% endif %}
 			{% if flag != "login" %}
-			<li><a {% block loginact %}{% endblock %} href="login">Login</a></li>
+			<li><a {% block loginact %}{% endblock %} href="/login">Login</a></li>
 			{% endif %}
-			<li><a {% block libact %}{% endblock %} href="library">Library</a></li>
+			<li><a {% block libact %}{% endblock %} href="/library">Library</a></li>
 			<li><a {% block homeact %}{% endblock %} href="/">Home</a></li>
 			<li style="float:left">ComboChronicles</li>
 		</ul>

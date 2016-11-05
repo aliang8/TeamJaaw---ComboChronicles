@@ -37,6 +37,10 @@ def register(username,password):
 def root():
 	return render_template('home.html', title = "Home")
 
+@app.route("/login/")
+def login():
+	return render_template('login.html', title = "login")
+
 @app.route("/authenticate/", methods = ['POST'])
 def auth():
     user = request.form['user']
@@ -73,7 +77,7 @@ def auth():
 def logout():
 	return redirect(url_for("root"))
 
-@app.route("/newsubmit/", methods = ['POST'])
+@app.route("/newsubmit/", methods=['GET', 'POST'])
 def newsubmit():
 	title = request.form['title']
 	entry = request.form['entry']
