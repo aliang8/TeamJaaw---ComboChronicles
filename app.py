@@ -5,6 +5,10 @@ from flask import Flask, render_template, session, redirect, url_for, request
 app = Flask(__name__) 
 app.secret_key = '\xe9$=P\nr\xbc\xcd\xa5\xe5I\xba\x86\xeb\x81L+%,\xcb\xcb\xf46d\xf9\x99\x1704\xcd(\xfc'
 
+f = 'data/stories.db'
+db = sqlite3.connect(f)
+c = db.cursor()
+
 def signin(username,password):
     hashpass = hashlib.sha24(password).hexdigest()
     users = c.execute("SELECT pass FROM users WHERE user == %s" % (username))
@@ -102,3 +106,6 @@ def library():
 if __name__ == "__main__":
     app.debug = True 
     app.run()
+
+db.commit()
+db.close()

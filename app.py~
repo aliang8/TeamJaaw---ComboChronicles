@@ -5,7 +5,7 @@ from flask import Flask, render_template, session, redirect, url_for, request
 app = Flask(__name__) 
 app.secret_key = '\xe9$=P\nr\xbc\xcd\xa5\xe5I\xba\x86\xeb\x81L+%,\xcb\xcb\xf46d\xf9\x99\x1704\xcd(\xfc'
 
-f = "data/stories.db"
+f = 'data/stories.db'
 db = sqlite3.connect(f)
 c = db.cursor()
 
