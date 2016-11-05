@@ -18,9 +18,6 @@
 		  <input type = "submit" name = "login" value = "Login">
 		  <input type = "submit" name = "register" value = "Register">
 		</form>
-		<form action="/register" method="GET">
-		<input type="submit" value="Register">
-		</form>  
 	{% endif %}
 
 	{% if flag == "login" %}

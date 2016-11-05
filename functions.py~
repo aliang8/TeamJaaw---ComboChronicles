@@ -10,23 +10,23 @@ c = db.cursor()
 
 #Initialize databases. Only works once.
 def initializeTables():    
-	c.execute("CREATE TABLE IF NOT EXISTS accounts (user TEXT, pass VARCHAR(60))")
+	c.execute("CREATE TABLE IF NOT EXISTS accounts (id INTEGER PRIMARY KEY autoincrement, username TEXT NOT NULL, password VARCHAR(60)) NOT NULL)")
 	c.execute("CREATE TABLE IF NOT EXISTS entries (storyid INTEGER, content TEXT, entrynum INTEGER, contributor TEXT, timestamp INTEGER)")
 	c.execute("CREATE TABLE IF NOT EXISTS stories (storyid INTEGER, title TEXT)")
-
-
+	
+	
 #========================================================GENERIC CREATE FUNCTIONS=============================================================
 #Need to add functions that handles all these inputs
 def newAccount(username, password):
-    hashpass = hashlib.sha512(password).hexdigest()
-    c.execute("INSERT INTO accounts VALUES('%s', %s)" % (username, hashpass))
-
+	hashpass = hashlib.sha512(password).hexdigest()
+	c.execute("INSERT INTO accounts VALUES('%s', %s)" % (username, hashpass))
+	
 def newStory(title, storyid, content, contributor, timestamp):
-    c.execute("INSERT INTO entries VALUES(%s, '%s', %s, '%s', %s)" % (storyid, content, 1, contributor, timestamp))
-    c.execute("INSERT INTO stories VALUES(%s, '%s')" % (storyid, title))
-
+	c.execute("INSERT INTO entries VALUES(%s, '%s', %s, '%s', %s)" % (storyid, content, 1, contributor, timestamp))
+	c.execute("INSERT INTO stories VALUES(%s, '%s')" % (storyid, title))
+	
 def newEntry(storyid, content, entrynum, contributor):
-    c.execute("INSERT INTO entries VALUES(%s, '%s', %s, '%s', %s)" % (storyid, content, entrynum, contributor, timestamp))
+	c.execute("INSERT INTO entries VALUES(%s, '%s', %s, '%s', %s)" % (storyid, content, entrynum, contributor, timestamp))
 #=============================================================================================================================================
 
 
@@ -135,5 +135,9 @@ def menuStories(numStories):
         
 #=============================================================================================================================================
 
+initializeTables()
 db.commit()
 db.close()
+
+
+

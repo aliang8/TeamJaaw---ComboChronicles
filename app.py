@@ -1,4 +1,4 @@
-import random, functions, hashlib, sqlite3
+import random, functions, hashlib, sqlite3, auth
 from flask import Flask, render_template, session, redirect, url_for, request
 from datetime import datetime
 
@@ -7,78 +7,25 @@ app.secret_key = '\xe9$=P\nr\xbc\xcd\xa5\xe5I\xba\x86\xeb\x81L+%,\xcb\xcb\xf46d\
 
 f = 'data/stories.db'
 
-def signin(username,password):
-	db = sqlite3.connect(f)
-	c = db.cursor()
-	hashpass = hashlib.sha24(password).hexdigest()
-	users = c.execute("SELECT pass FROM users WHERE user == %s" % (username))
-	if users and users[0] == hashpass:
-		return True
-	else:
-		return False
-
-def register(username,password):
-	db = sqlite3.connect(f)
-	c = db.cursor()
-	user = c.execute("SELECT user FROM users WHERE user == %s" % (username))
-	if user:
-		return 1
-	elif len(username) < 3 and len(password) < 3:
-		return 2
-	elif len(password) < 3:
-		return 3
-	elif len(username) < 3:
-		return 4
-	elif not(username.isalum()) or not(password.isalum()):
-		return 5
-	else:
-		c.execute("INSERT INTO users VALUES (%s,%s)" % (username,password))
-		return 6
-
-
-@app.route("/")
-def root():
-	return render_template('home.html', title = "Home")
-
-@app.route("/login/")
-def login():
-	return render_template('login.html', title = "login")
-
-@app.route("/authenticate/", methods = ['POST'])
-def auth():
-	db = sqlite3.connect(f)
-	c = db.cursor()
-	user = request.form['user']
-	pasz = request.form['pass']
-	hashpass = hashlib.sha224(pasz).hexdigest()
-	status = functions.register(user,pasz)
-	if 'login' in request.form:
-		if functions.signin(user,pasz):
-			session['username'] = user
-			response = make_response(redirect(url_for('root')))
-			response.set_cookie('username',user)
+@app.route("/", methods = ['POST','GET'])
+def home():
+	if request.method == 'POST':
+		username = request.form['user']
+		password = request.form['pass']
+		hashpass = hashlib.sha224(password).hexdigest()
+		if 'login' in request.form:
+			if auth.login(username,password):
+				session['username'] = user
+				return render_template('home.html',message = 'Login Successful')
+			else:
+				return render_template('home.html',message = 'Login Failed')
 		else:
-			return render_template('home.html',message = 'Login Failed')
-	else:
-		if status == 1:
-			return render_template('home.html',
-					       message = 'Registration failed. User already exists.')
-		elif status == 2:
-			return render_template('home.html',
-					       message = 'Registration failed. Username and password too short.')
-		elif status == 3:
-			return render_template('home.html',
-					       message = 'Registration failed. Password too short')
-		elif status == 4:
-			return render_template('home.html',
-					       message = 'Registration failed. Username too short')
-		elif status == 5:
-			return render_template('home.html',
-					       message = 'Registration failed. Username or password too short')
-		else:
-			return render_template('home.html',
-					       message = 'Registration successful')
-	
+			if auth.register(username,password):
+				return render_template('home.html',message = 'Registration Sucessful')
+			else:
+				return render_template('home.html',message = 'Registration Failed')
+	else :
+		return render_template('home.html')
 	
 @app.route("/logout/")
 def logout():

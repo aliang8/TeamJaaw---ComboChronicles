@@ -10,7 +10,7 @@ c = db.cursor()
 
 #Initialize databases. Only works once.
 def initializeTables():    
-	c.execute("CREATE TABLE IF NOT EXISTS accounts (user TEXT, pass VARCHAR(60))")
+	c.execute("CREATE TABLE IF NOT EXISTS accounts (id INTEGER PRIMARY KEY autoincrement, username TEXT NOT NULL, password VARCHAR(60) NOT NULL)")
 	c.execute("CREATE TABLE IF NOT EXISTS entries (storyid INTEGER, content TEXT, entrynum INTEGER, contributor TEXT, timestamp INTEGER)")
 	c.execute("CREATE TABLE IF NOT EXISTS stories (storyid INTEGER, title TEXT)")
 	
@@ -135,5 +135,9 @@ def menuStories(numStories):
         
 #=============================================================================================================================================
 
+initializeTables()
 db.commit()
 db.close()
+
+
+
