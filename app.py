@@ -58,11 +58,11 @@ def posts():
 	
 @app.route("/account/")
 def account():
-	return render_template('account.html', title = "My Account")
+	return render_template('account.html', flag="login", title = "My Account", userstories = functions.myStoryListDict(session['username']))
 
 @app.route('/user/<username>/')
 def show_user_profile(username):
-	return render_template('account.html', title =  username+ "'s Account", user = username);
+	return render_template('account.html', title =  username+ "'s Account", user = username, userstories = functions.myStoryListDict(username));
 
 @app.route('/story/<int:post_id>/')
 def show_post(post_id):
