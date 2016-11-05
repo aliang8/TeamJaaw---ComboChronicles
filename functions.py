@@ -8,6 +8,7 @@ c = db.cursor()
 
 
 
+
 #Initialize databases. Only works once.
 def initializeTables():    
 	c.execute("CREATE TABLE IF NOT EXISTS accounts (user TEXT, pass VARCHAR(60))")
@@ -16,6 +17,8 @@ def initializeTables():
 
 
 #========================================================GENERIC CREATE FUNCTIONS=============================================================
+
+
 #Need to add functions that handles all these inputs
 def newAccount(username, password):
     hashpass = hashlib.sha512(password).hexdigest()
