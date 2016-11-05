@@ -16,7 +16,7 @@
     <br>
     Don't have an account yet? Sign up today!
     <br>
-    <input type="submit" name = "register" value = "Register">
+    <input type="submit" name = "reg" value = "Register">
   </form>
 
 

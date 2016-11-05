@@ -10,7 +10,6 @@
 		<br>
 		Get started!
 		<br>
-		<h3> {{message}} </h3>
 		<form action="/login/" method="POST">
 		  <input type = "submit" name = "log" value = "Login">
 		  <br>
@@ -22,7 +21,7 @@
 
 	{% if flag == "login" %}
 	<h2>Start a Story</h2>
-		<form action="/newentry/" method="GET">
+		<form action="/newsubmit/" method="GET">
 			<input type="submit" value="Begin Writing">
 		</form>
 	<br>
