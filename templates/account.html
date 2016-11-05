@@ -2,7 +2,7 @@
 
 {% block content %}
 
-	{% if flag == "login" %}
+	{% if 'username' in session %}
 
 	<h2>Welcome to Your Account</h2>
 		See your recent stories, change your password, and edit your settings here!
@@ -17,7 +17,7 @@
 
 	{% endif %}
 
-	{% if flag != "login" %}
+	{% if 'username' not in session %}
 	<h2> {{user}}'s Account </h2>
 
 		<h3> Their Stories </h3>

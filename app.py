@@ -8,7 +8,7 @@ app.secret_key = '\xe9$=P\nr\xbc\xcd\xa5\xe5I\xba\x86\xeb\x81L+%,\xcb\xcb\xf46d\
 f = 'data/stories.db'
 
 @app.route("/", methods = ['POST','GET'])
-def home():
+def home():	
 	return render_template('home.html', title = "ComboChronicles")
 
 @app.route("/login/", methods = ['POST','GET'])
@@ -24,7 +24,7 @@ def authenticate():
 		if 'login' in request.form:
 			if auth.login(username,password):
 				session['username'] = username
-				return render_template('home.html',message = 'Login Successful')
+				return render_template('uhome.html',message = 'Login Successful')
 			else:
 				return render_template('home.html',message = 'Login Failed')
 		else:
@@ -37,6 +37,7 @@ def authenticate():
 	
 @app.route("/logout/")
 def logout():
+        session.pop('username')
 	return redirect(url_for("home"))
 
 @app.route("/newentry/", methods=['GET', 'POST'])
@@ -72,6 +73,3 @@ def library():
 if __name__ == "__main__":
 	app.debug = True 
 	app.run()
-
-db.commit()
-db.close()
