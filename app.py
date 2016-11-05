@@ -9,6 +9,14 @@ f = 'data/stories.db'
 
 @app.route("/", methods = ['POST','GET'])
 def home():
+		return render_template('home.html', title = "ComboChronicles")
+
+@app.route("/login/", methods = ['POST','GET'])
+def login():
+		return render_template('login.html', title = "login")
+
+@app.route("/authenticate/", methods = ['POST','GET'])
+def auth():
 	if request.method == 'POST':
 		username = request.form['user']
 		password = request.form['pass']
@@ -24,8 +32,7 @@ def home():
 				return render_template('home.html',message = 'Registration Sucessful')
 			else:
 				return render_template('home.html',message = 'Registration Failed')
-	else :
-		return render_template('home.html')
+	return redirect(url_for("root"))
 	
 @app.route("/logout/")
 def logout():
