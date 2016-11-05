@@ -8,15 +8,9 @@
 		<br>
 
 		<h3> Your Stories </h3>
-		{% for dict_item in parent_dict %}
-   			{% for key, value in dict_item.items() %}
-      			<h1>Key: {{key}}</h1>
-      			<h2>Value: {{value}}</h2>
-   			{% endfor %}
-		{% endfor %}
-		{% for n in range({{stories|length}}) %}
-			<a href="/story/{{ids[n]}}">{{stories[n]}}</a>
-			<br>
-		{% endfor %}
+   		{%for key in userstories%}
+   		<a href="/post/{{key}}">{{userstories[key]}}</a>
+   		<br>
+		{%endfor%}
 
 {% endblock %}
