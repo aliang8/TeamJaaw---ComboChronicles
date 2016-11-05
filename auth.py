@@ -9,7 +9,7 @@ def register(username, password):
     db = sql.connect(STORIES)
     c = db.cursor()
     users = c.execute("SELECT username FROM accounts WHERE username = ?", (username,))
-    if users != None:
+    if c.fetchone()[0] != "":
         c.execute("INSERT INTO accounts (username,password) VALUES (?,?)", creds)
         db.commit()
         db.close()
