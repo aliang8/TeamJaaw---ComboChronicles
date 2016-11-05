@@ -3,7 +3,7 @@ import hashlib
 
 #CONNECT DATABASE
 f= "data/stories.db"
-db = sqlite3.connect(f, check_same_thread = False)
+db = sqlite3.connect(f)
 c = db.cursor()
 
 
