@@ -16,7 +16,7 @@ def login():
 		return render_template('login.html', title = "login")
 
 @app.route("/authenticate/", methods = ['POST','GET'])
-def auth():
+def authen():
 	if request.method == 'POST':
 		username = request.form['user']
 		password = request.form['pass']
