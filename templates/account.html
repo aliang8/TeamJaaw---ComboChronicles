@@ -16,7 +16,7 @@
 	<center>
 		<h3> Your Stories </h3>
    		{%for key in userstories%}
-   		<a href="/newentry/{{key}}">{{userstories[key]}}</a>
+   		<a href="/newentry/{{key}}/{{userstories[key]}}">{{userstories[key]}}</a>
    		<br>
 		{%endfor%}
 
