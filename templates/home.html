@@ -22,9 +22,10 @@
 
 	{% if 'username' in session %}
 	<h2>Start a Story</h2>
-		<form action="/newstory/" method = "GET">
-			<input type="submit" value="Begin Writing">
-		</form>
+	<h3> {{message}} </h3>
+	<form action="/newstory/" method = "GET">
+	  <input type="submit" value="Begin Writing">
+	</form>
 	<br>
 	<br>
 	<h2>Popular Stories</h2>

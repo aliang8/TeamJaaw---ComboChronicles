@@ -56,7 +56,7 @@ def newstory():
 		title = request.form['title']
 		story = request.form['story']
 		stories.newStory(title,story)
-		return redirect(url_for("home"))
+		return render_template('home.html',message = "Awesome, you started a new story!")
 	else:
 		return render_template('newstory.html', title = "Create Story")
 	
