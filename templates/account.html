@@ -6,20 +6,36 @@
 
 	{% if 'username' in session %}
 
+	<center>
 	<h2>Welcome to Your Account</h2>
-		See your recent stories, change your password, and edit your settings here!
-		<br>
-		<br>
+		{{message}}
 
+	</center>
+
+
+	<center>
 		<h3> Your Stories </h3>
    		{%for key in userstories%}
    		<a href="/stories/{{key}}">{{userstories[key]}}</a>
    		<br>
 		{%endfor%}
 
+		<br>
+		Change your Password:
+		<br>
+		<form action = "/login" method = "POST">
+		<br>
+		    <input type="password" name="pass"><br>
+		    <input type="submit" name = "login" value = "Confirm Password">
+		    <br>
+		    <br> 
+  		</form>
+	</center>
+
 	{% endif %}
 
 	{% if 'username' not in session %}
+	<center>
 	<h2> {{user}}'s Account </h2>
 
 		<h3> Their Stories </h3>
@@ -27,6 +43,8 @@
    		<a href="/stories/{{key}}">{{userstories[key]}}</a>
    		<br>
 		{%endfor%}
+
+	</center>
 
 	{% endif %}
 
