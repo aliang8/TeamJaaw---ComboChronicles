@@ -68,6 +68,13 @@ def newEntry(storyid, content, contributor, timestamp):
 
 #===========================================================OUTPUT FUNCTIONS=================================================================
 
+def getTitle(storyID):
+    db = sql.connext(STORIES)
+    c = db.cursor()
+    data = c.execute("SELECT * FROM stories WHERE stories.storyid == ?", (storyid,))
+    return data.fetchone()[1]
+
+
 
 #Returns a list of all posts a user has contributed to
 def returnContributed(username):
