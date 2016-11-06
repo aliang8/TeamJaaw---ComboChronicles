@@ -48,7 +48,7 @@ def logout():
 @app.route("/newentry/<storyid>/<storytitle>/", methods=['GET','POST'])
 def newentry(storyid, storytitle):
 	if [storyid in functions.returnContributed(session['username'])]:
-		return redirect(url_for("story", storyid = storyid, storytitle = storytitle))
+	 	return redirect(url_for("story", storyid = storyid, storytitle = storytitle))
 	if request.method == 'POST':
 			storyTitle = storytitle
 			storyID = storyid
@@ -58,8 +58,7 @@ def newentry(storyid, storytitle):
 	else:
 		statlist = functions.returnLastEntry(storyid)
 		contentholder = functions.returnStory(storyid)
-		print contentholder
-		return render_template('newentry.html', title = "New Entry", id = storyid, story = storytitle, content = functions.returnStory(storyid)[-1], stats = 'by ' + statlist[3] + " at " + statlist[4])
+		return render_template('newentry.html', numentries = functions.returnNumEntries(storyid), title = "New Entry", id = storyid, story = storytitle, content = functions.returnStory(storyid)[-1], stats = 'by ' + statlist[3] + " at " + statlist[4])
 
 
 @app.route("/newstory/", methods=['GET','POST'])
