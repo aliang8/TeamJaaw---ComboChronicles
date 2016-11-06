@@ -18,9 +18,6 @@ def home(message):
 
 @app.route("/login/", methods = ['POST','GET'])
 def login():
- 	if request.form['submit'] == "Confirm Password":
-		functions.changePass(session['username'],request.form['pass'])
-		session.pop('username')
 	return render_template('login.html', title = "login")
 
 @app.route("/authenticate/", methods = ['POST','GET'])
