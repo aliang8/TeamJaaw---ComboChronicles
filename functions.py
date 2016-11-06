@@ -9,33 +9,36 @@ c = db.cursor()
 #Initialize databases. Only works once.
 def initializeTables():    
 	c.execute("CREATE TABLE IF NOT EXISTS accounts (id INTEGER PRIMARY KEY autoincrement, username TEXT NOT NULL, password TEXT NOT NULL)")
-	c.execute("CREATE TABLE IF NOT EXISTS entries (entryID INTEGER PRIMARY KEY autoincrement, title TEXT NOT NULL, content TEXT NOT NULL)")
-	c.execute("CREATE TABLE IF NOT EXISTS stories (storyID INTEGER PRIMARY KEY autoincrement,title TEXT NOT NULL, content TEXT NOT NULL,)")
+	c.execute("CREATE TABLE IF NOT EXISTS entries (storyid INTEGER, content TEXT NOT NULL, entryID autoincrement, contributor TEXT NOT NULL, timestamp INTEGER)")
+	c.execute("CREATE TABLE IF NOT EXISTS stories (storyid INTEGER, title TEXT NOT NULL)")
 	
 #========================================================GENERIC CREATE FUNCTIONS=============================================================
 def newStory(title, storyid, content, contributor, timestamp):
-	db = sql.connect(f)
-	c = db.cursor()
-	c.execute("INSERT INTO entries VALUES(%s, '%s', %s, '%s', %s)" % (storyid, content, 1, contributor, timestamp))
-	c.execute("INSERT INTO stories VALUES(%s, '%s')" % (storyid, title))
+	c.execute("INSERT INTO entries VALUES(?, ?, ?, ?, ?)" , (storyid, content, NULL, contributor, timestamp,))
+	c.execute("INSERT INTO stories VALUES(?, ?)" , (storyid, title,))
 	db.commit()
-	db.close()
+
+def newEntry(storyid, content, contributor, timestamp):
+	c.execute("INSERT INTO entries VALUES(?, ?, ?, ?, ?)" , (storyid, content, NULL, contributor, timestamp,))
+	db.commit()
+
 #=============================================================================================================================================
 
 
 #===========================================================OUTPUT FUNCTIONS=================================================================
 
+
 #Returns a list of all posts a user has contributed to
 def returnContributed(username):
-    data = c.execute("SELECT DISTINCT storyid FROM entries WHERE entries.contributor == %s ORDER BY timestamp ASC" % (username))
+    data = c.execute("SELECT DISTINCT storyid FROM entries WHERE entries.contributor == ? ORDER BY timestamp ASC" , (username,))
     stories = []
     for item in data:
         stories.append(item[0])	#Item[0] = storyid
     return stories
     
-#Returns one entire story as a string
+#Returns one entire story as a list
 def returnStory(storyid):
-    data = c.execute("SELECT * FROM entries WHERE entries.storyid == %s ORDER BY entrynum ASC" % (storyid))
+    data = c.execute("SELECT * FROM entries WHERE entries.storyid == ? ORDER BY entrynum ASC" , (storyid,))
     story = []
     for item in data:
         story.append(item[1]) # Item 1 = Story content of one entry
@@ -43,19 +46,28 @@ def returnStory(storyid):
 
 #Returns a list of all contributors to a story in order
 def returnContributors(storyid):
-    data = c.execute("SELECT * FROM entries WHERE entries.storyid == %s ORDER BY entrynum ASC" % (storyid))
+    data = c.execute("SELECT * FROM entries WHERE entries.storyid == ? ORDER BY entrynum ASC" , (storyid,))
     contributors = []
     for item in data:
         contributors.append(item[3]) #Item[3] = contributor
     return contributors
 
 def returnLatest(numStories):
-    data = c.execute("SELECT DISTINCT storyid FROM entries ORDER BY timestamp ASC LIMIT %s" % numStories)
+    data = c.execute("SELECT DISTINCT storyid FROM entries ORDER BY timestamp ASC LIMIT ?" , (numStories,))
     stories = []
     for item in data:
         stories.append(item[0])
 
     return stories
+
+#Returns list of all completed story ids ordered
+def returnFinished(sortOrder):
+	data = c.execute("SELECT DISTINCT storyid FROM entries WHERE entries.entrynum == 20 ORDER BY ? ASC" , (sortOrder,))
+	stories = []
+	for item in data:
+		stories.append(item[0])
+
+	return stories
         
 #==============================================================================================================================================
 
@@ -79,10 +91,12 @@ def myStoryList(username):
         allStories.append(returnStory(storyid))
         allContributors.append(returnContributors(storyid))
 
-    	data = c.execute("SELECT * FROM stories WHERE stories.storyid == %s" % (storyid))
-        allTitles.append(data.fetchone()[1]) #First (and only) entry fetch. fetch[1] = title
+    	data = c.execute("SELECT * FROM stories WHERE stories.storyid == ?" , (storyid,))
+        entry = data.fetchone()
+	if entry:
+		allTitles.append(entry[1]) #First (and only) entry fetch. fetch[1] = title
 	
-    return (allTitles, allStories, allContributors)
+    return (allTitles, allStories, allContributors,)
 
 def myStoryListID(username):
     allIDs = []
@@ -92,18 +106,20 @@ def myStoryListID(username):
     for storyid in myStories:
         allIDs.append(storyid);
 
-        data = c.execute("SELECT * FROM stories WHERE stories.storyid == %s" % (storyid))
+        data = c.execute("SELECT * FROM stories WHERE stories.storyid == ?" , (storyid,))
         allTitles.append(data.fetchone()[1]) #First (and only) entry fetch. fetch[1] = title
 
-    return (allIDs, allTitles)
+    return (allIDs, allTitles,)
 
 def myStoryListDict(username):
     storyDict = {}
     myStories = returnContributed(username)
 
     for storyid in myStories:
-        data = c.execute("SELECT * FROM stories WHERE stories.storyid == %s" % (storyid))
-        title = data.fetchone()[1] #First (and only) entry fetch. fetch[1] = title
+        data = c.execute("SELECT * FROM stories WHERE stories.storyid == ?" , (storyid,))
+        title = data.fetchone()
+		if title:
+			title = title[1] #First (and only) entry fetch. fetch[1] = title
         storyDict[storyid] = title
 
     return storyDict
@@ -115,20 +131,53 @@ def menuStories(numStories):
     latestEntries = []
     latestTitles = []
     
-    for story in latest:
-        data = c.execute("SELECT * FROM entries WHERE story.id == %s ORDER BY entrynum DES" % story)
+    for story in latestStories:
+        data = c.execute("SELECT * FROM entries WHERE story.id == ? ORDER BY entrynum DES" , (story,))
         entry = data.fetchone()
-        latestEntries.append(entry[1]) #Entry[1] = content
+        if entry:
+		latestEntries.append(entry[1]) #Entry[1] = content
 
-        data = c.execute("SELECT * FROM stories WHERE story.id == %s" % story)
+        data = c.execute("SELECT * FROM stories WHERE story.id == ?" , (story,))
         entry = data.fetchone()
-        latestTitles.append(entry[1]) #Entry[1] = title
+        if entry:
+		latestTitles.append(entry[1]) #Entry[1] = title
 
-    return (latestTitles, latestStories,  latestEntries)
-        
+    return (latestTitles, latestStories, latestEntries,)
+
+
+#Returns the list for all stories that were finished. To be used for the library
+def libraryStories():
+	allStories = returnFinished('storyid')
+	allEntries = []
+	allTitles = []
+
+	for story in allStories:
+		
+        	data = c.execute("SELECT * FROM entries WHERE story.id == ? ORDER BY entrynum DES" , (story,))
+        	entry = data.fetchone()
+        	if entry:
+			latestEntries.append(entry[1]) #Entry[1] = content
+
+        	data = c.execute("SELECT * FROM stories WHERE story.id == ?" , (story,))
+        	entry = data.fetchone()
+        	if entry:
+			latestTitles.append(entry[1]) #Entry[1] = title
+
+	return (allTitles, allStories, allEntries,)
+	
+def libraryStoriesDict():	
+	allStories = returnFinished('storyid')
+	storyDict = {}
+
+	for story in allStories:
+		title = c.execute("SELECT * FROM stories WHERE story.id == ? ORDER BY storyid ASC", (story,))
+		title = title.fetchone()
+		storyDict[story] = title[1]
+
+	return storyDict
+
 #=============================================================================================================================================
 
-initializeTables()
 db.commit()
 db.close()
 
