@@ -83,6 +83,10 @@ def show_user_profile(username):
 def library():
 	return render_template('library.html', title = "Library", titles = functions.libraryStories()[0], entries = functions.libraryStories()[2])
 
+	@app.route("/library/<sort>")
+def library(sort):
+	return render_template('library.html', title = "Library", titles = functions.libraryStories()[0], entries = functions.libraryStories()[2])
+
 if __name__ == "__main__":
 	app.debug = True 
 	app.run()
