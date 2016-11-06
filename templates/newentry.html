@@ -1,5 +1,7 @@
 {% extends "index.html" %}
 
+{% block title %}New Entry{% endblock %}
+
 {% block content %}
 
 {% if 'username' in session%}
@@ -8,7 +10,7 @@
 <form action = "/newentry/" method = "POST">
   <input type = "text" name = "entry">
   <br>
-  <input type="submit" value = "Let's Go!" name = "{{story}}">
+  <input type="submit" value = "Submit Addition" name = "{{story}}">
 </form>
 {% endif %}
 

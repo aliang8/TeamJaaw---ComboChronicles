@@ -3,39 +3,83 @@
 {% block homeact %}class="active"{% endblock %}
 
 {% block content %}
+	<center><h1>ComboChronicles</h1></center>
 
 	{% if 'username' not in session %}
-		<h2>Welcome to ComboChronicles</h2>
+		<center>
 		A platform on which you can create collaborative stories with your friends and strangers!
+		</center>
+
+		<table style="width:100%", id="frontcols">
+		<tr>
+			<th>
+			<center>
+			<div class = "feed_wrapper">
+			<h2>Popular Stories</h2>
+			{% for title,story in titles_stories %}
+			<a href = "{{url_for ('login')}}"><h3>{{title}}</h3></a>
+			<b>{{story}}</b>
+			<hr>
+			{% endfor %}
+			</div>
+			</center>
+				
+			</th>
+			<th>
+				<div class = "start_wrapper">
+				<h2>Get started!</h2>
+				<h3>{{message}}</h3>
+				<br>
+				<form action="/login/" method="POST">
+				  <input type = "submit" name = "log" value = "Login">
+				  <br>
+				  <br>
+				  Don't have an account yet?
+				  <br>
+				  <br>
+				  <input type = "submit" name = "reg" value = "Register">
+				  <br>
+				</form>
+				</div>
+			</th>
+
+		</tr>
 		<br>
-		Get started!
-		<br>
-		<h3>{{message}}</h3>
-		<form action="/login/" method="POST">
-		  <input type = "submit" name = "log" value = "Login">
-		  <br>
-		  Don't have an account yet?
-		  <input type = "submit" name = "reg" value = "Register">
-		  <br>
-		</form>
+		
 	{% endif %}
 
 	{% if 'username' in session %}
-		<h2>Start a Story</h2>
-		<h3> {{message}} </h3>
-		<form action="/newstory/" method = "GET">
-		  <input type="submit" value="Begin Writing">
-		</form>
+		<table style="width:100%", id="frontcols">
+		<tr>
+			<th>
+			<center>
+			<div class = "feed_wrapper">
+			<h2>Popular Stories</h2>
+			{% for title,story in titles_stories %}
+			<a href = "{{url_for ('newentry', title = title)}}"><h3>{{title}}</h3></a>
+			<b>{{story}}</b>
+			<hr>
+			{% endfor %}
+			</div>
+			</center>
+				
+			</th>
+			<th>
+				<div class = "start_wrapper">
+				<center>
+					<h2>Start a Story</h2>
+					<h3> {{messagetop}} </h3>
+					<form action="/newstory/" method = "GET">
+					  <input type="submit" value="Begin Writing">
+					</form>
+					<br>
+					</center>
+				</div>
+			</th>
+
+		</tr>
 		<br>
-		<br>
-		<h2>Popular Stories</h2>
-		<br>
-		{% for title,story in titles_stories %}
-		<a href = "{{url_for ('newentry', title = title)}}"><h2>{{title}}</h2></a>
-		<br>
-		<h3>{{story}}</h3>
-		<br>
-		{% endfor %}
+
 	{% endif %}
 		
 {% endblock %}

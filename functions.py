@@ -25,29 +25,29 @@ def getstoryID(title):
 
 #=============================================================AUTHENTICATION==================================================================
 def register(username, password):
-    hashpass = hashlib.sha224(password).hexdigest()
-    creds = (username,hashpass,)
-    db = sql.connect(STORIES)
-    c = db.cursor()
-    users = c.execute("SELECT username FROM accounts WHERE username = ?", (username,))
-    if len(c.fetchall()) == 0 and len(password) >= 3:
-        c.execute("INSERT INTO accounts (username,password) VALUES (?,?)", creds)
-        db.commit()
-        return True
-    else:
-        return False
+	hashpass = hashlib.sha224(password).hexdigest()
+	creds = (username,hashpass,)
+	db = sql.connect(STORIES)
+	c = db.cursor()
+	users = c.execute("SELECT username FROM accounts WHERE username = ?", (username,))
+	if len(c.fetchall()) == 0 and len(password) >= 3:
+		c.execute("INSERT INTO accounts (username,password) VALUES (?,?)", creds)
+		db.commit()
+		return True
+	else:
+		return False
 
 def login(username,password):
-    hashpass = hashlib.sha224(password).hexdigest()
-    db = sql.connect(STORIES)
-    c = db.cursor()
-    users = c.execute("SELECT password FROM accounts WHERE username = ?", (username,))
-    data = users.fetchall()
-    if len(data) == 0:
-        return False
-    elif data[0][0] == hashpass:
-        return True
-    db.commit()
+	hashpass = hashlib.sha224(password).hexdigest()
+	db = sql.connect(STORIES)
+	c = db.cursor()
+	users = c.execute("SELECT password FROM accounts WHERE username = ?", (username,))
+	data = users.fetchall()
+	if len(data) == 0:
+		return False
+	elif data[0][0] == hashpass:
+		return True
+	db.commit()
 
 #========================================================GENERIC CREATE FUNCTIONS=============================================================
 def newStory(title, content, contributor, timestamp):
@@ -125,8 +125,8 @@ def returnLastEntry(storyid):
 	db = sql.connect(STORIES)
 	c = db.cursor()
 	data = c.execute("SELECT * FROM entries WHERE entries.storyid == ? ORDER BY timestamp DES", (storyid))
-    entry = data.fetchone()
-    return entry
+	entry = data.fetchone()
+	return entry
 #==============================================================================================================================================
 
 
@@ -213,8 +213,8 @@ def libraryStories():
 	allEntries = []
 	allTitles = []
 	for story in allStories:
-        	data = c.execute("SELECT * FROM entries WHERE entries.storyid == ? ORDER BY entryID ASC" , (story,))
-        	entries = data.fetchall()
+		data = c.execute("SELECT * FROM entries WHERE entries.storyid == ? ORDER BY entryID ASC" , (story,))
+		entries = data.fetchall()
 		for entry in entries:
 			allEntries.append(entry[1])
 		data = c.execute("SELECT title FROM stories WHERE storyid == ?", (story,))
@@ -233,6 +233,16 @@ def libraryStoriesDict():
 		title = title.fetchone()
 		storyDict[story] = title[1]
 	return storyDict
+
+def storyExists(title):
+	db = sql.connect(STORIES)
+	c = db.cursor()
+	comp = ""
+	comp = c.execute("SELECT title FROM  stories WHERE title = ?", (title,))
+	if comp == "":
+		return False
+	else:
+		return True
 
 #=============================================================================================================================================
 
