@@ -120,8 +120,8 @@ def myStoryListDict(username):
     for storyid in myStories:
 	data = c.execute("SELECT * FROM stories WHERE stories.storyid == ?" , (storyid,))
 	title = data.fetchone()
-		if title:
-			title = title[1] #First (and only) entry fetch. fetch[1] = title
+	if title:
+		title = title[1] #First (and only) entry fetch. fetch[1] = title
 	storyDict[storyid] = title
 
     return storyDict
