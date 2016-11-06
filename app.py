@@ -34,12 +34,12 @@ def authenticate():
 			else:
 				return render_template('home.html',message = 'Registration Failed')
 	else:
-		return redirect(url_for("home"))
+		return redirect(url_for("login"))
 	
 @app.route("/logout/")
 def logout():
         session.pop('username')
-	return redirect(url_for("home"))
+	return redirect(url_for("home", message = "Successfully logged out"))
 
 @app.route("/newentry/", methods=['GET','POST'])
 def newentry():
@@ -81,7 +81,7 @@ def show_post(post_id):
 
 @app.route("/library/")
 def library():
-	return render_template('library.html', title = "Library", libStories = functions.libraryStories())
+	return render_template('library.html', title = "Library", titles = functions.libraryStories()[0], entries = functions.libraryStories()[2])
 
 if __name__ == "__main__":
 	app.debug = True 

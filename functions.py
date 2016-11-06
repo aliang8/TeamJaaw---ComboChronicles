@@ -102,7 +102,7 @@ def returnContributors(storyid):
 def returnLatest(numStories):
 	db = sql.connect(STORIES)
 	c = db.cursor()
-	data = c.execute("SELECT DISTINCT storyid FROM entries ORDER BY timestamp ASC LIMIT ?" , (numStories,))
+	data = c.execute("SELECT DISTINCT storyid FROM entries ORDER BY timestamp DESC LIMIT ?" , (numStories,))
 	stories = []
 	for item in data:
 		stories.append(item[0])
@@ -117,7 +117,7 @@ def returnFinished(sortOrder):
 	storyList = []
 	for story in stories:
 		l = list(c2.execute("SELECT * FROM entries WHERE entries.storyid == ?" , story))
-		if len(l) == 10:
+		if len(l) >= 5:
 			storyList.append(story[0])			
 	return storyList
         
@@ -207,14 +207,14 @@ def libraryStories():
 	allEntries = []
 	allTitles = []
 	for story in allStories:
-        	data = c.execute("SELECT * FROM entries WHERE story.id == ? ORDER BY entrynum DES" , (story,))
-        	entry = data.fetchone()
-        	if entry:
-			latestEntries.append(entry[1]) #Entry[1] = content
-        	data = c.execute("SELECT * FROM stories WHERE story.id == ?" , (story,))
-        	entry = data.fetchone()
-        	if entry:
-			latestTitles.append(entry[1]) #Entry[1] = title
+        	data = c.execute("SELECT * FROM entries WHERE entries.storyid == ? ORDER BY entryID ASC" , (story,))
+        	entries = data.fetchall()
+		for entry in entries:
+			allEntries.append(entry[1])
+		data = c.execute("SELECT title FROM stories WHERE storyid == ?", (story,))
+		entry = data.fetchone()
+		if entry:
+			allTitles.append(entry[0])
 	return (allTitles, allStories, allEntries,)
 	
 def libraryStoriesDict():	
@@ -234,3 +234,6 @@ def libraryStoriesDict():
 
 print menuStories(2)
 print getstoryID('hi')
+print returnFinished('storyid')
+libraryStories()
+print returnLatest(2)
