@@ -1,11 +1,11 @@
-import sqlite3 as sql 
+import sqlite3 as sql
 import hashlib
 
 #CONNECT DATABASE
 STORIES = "data/stories.db"
 
 #Initialize databases. Only works once.
-def initializeTables():    
+def initializeTables():
 	db = sql.connect(STORIES)
 	c = db.cursor()
 	c.execute("CREATE TABLE IF NOT EXISTS accounts (username TEXT NOT NULL, password TEXT NOT NULL)")
@@ -118,16 +118,22 @@ def returnFinished(sortOrder):
 	for story in stories:
 		l = list(c2.execute("SELECT * FROM entries WHERE entries.storyid == ?" , story))
 		if len(l) >= 5:
-			storyList.append(story[0])			
+			storyList.append(story[0])
 	return storyList
-        
+
+def returnLastEntry(storyid):
+	db = sql.connect(STORIES)
+	c = db.cursor()
+	data = c.execute("SELECT * FROM entries WHERE entries.storyid == ? ORDER BY timestamp DES", (storyid))
+    entry = data.fetchone()
+    return entry
 #==============================================================================================================================================
 
 
 
 #=============================================================FOR DISPLAY FUNCTIONS============================================================
 
-#Returns a tuple (All titles of stories user contributed to, 
+#Returns a tuple (All titles of stories user contributed to,
 #                 all stories contents of the contributed to stories,
 #                 all contributors of the respective stories)
 #
@@ -140,16 +146,16 @@ def myStoryList(username):
 	allStories = []
 	allContributors = []
 	allTitles = []
-	
+
 	for storyid in myStories:
 		allStories.append(returnStory(storyid))
 		allContributors.append(returnContributors(storyid))
-		
+
 		data = c.execute("SELECT * FROM stories WHERE stories.storyid == ?" , (storyid,))
 		entry = data.fetchone()
 		if entry:
 			allTitles.append(entry[1]) #First (and only) entry fetch. fetch[1] = title
-			
+
 	return (allTitles, allStories, allContributors,)
 
 def myStoryListID(username):
@@ -178,8 +184,8 @@ def myStoryListDict(username):
 			title = title[1] #First (and only) entry fetch. fetch[1] = title
 		storyDict[storyid] = title
 	return storyDict
-    
-    
+
+
 #Returns the list of stories for the main page
 def menuStories(numStories):
 	db = sql.connect(STORIES)
@@ -216,8 +222,8 @@ def libraryStories():
 		if entry:
 			allTitles.append(entry[0])
 	return (allTitles, allStories, allEntries,)
-	
-def libraryStoriesDict():	
+
+def libraryStoriesDict():
 	db = sql.connect(STORIES)
 	c = db.cursor()
 	allStories = returnFinished('storyid')
