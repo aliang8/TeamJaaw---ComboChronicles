@@ -9,7 +9,7 @@ def initializeTables():
 	db = sql.connect(STORIES)
 	c = db.cursor()
 	c.execute("CREATE TABLE IF NOT EXISTS accounts (username TEXT NOT NULL, password TEXT NOT NULL)")
-	c.execute("CREATE TABLE IF NOT EXISTS entries (storyid INTEGER, content TEXT NOT NULL, entryID PRIMARY KEY autoincrement, contributor TEXT NOT NULL, timestamp TEXT NOT NULL)")
+	c.execute("CREATE TABLE IF NOT EXISTS entries (storyid INTEGER, content TEXT NOT NULL, entryID INTEGER PRIMARY KEY autoincrement, contributor TEXT NOT NULL, timestamp TEXT NOT NULL)")
 	c.execute("CREATE TABLE IF NOT EXISTS stories (storyid INTEGER PRIMARY KEY, title TEXT NOT NULL)")
 	db.commit()
 	db.close()
@@ -18,8 +18,8 @@ def initializeTables():
 def newStory(title, content, contributor, timestamp):
 	db = sql.connect(STORIES)
 	c = db.cursor()
-	c.execute("INSERT INTO stories VALUES(?, ?)", ("null", title))
-	c.execute("INSERT INTO entries VALUES(?, ?, ?, ?, ?)" , (c.lastrowid, content, "null", contributor, timestamp,))
+	c.execute("INSERT INTO stories (title) VALUES (?)", (title,))
+	c.execute("INSERT INTO entries (storyid, content, contributor, timestamp) VALUES(?, ?, ?, ?)" , (c.lastrowid, content, contributor, timestamp,))
 	db.commit()
 
 def newEntry(storyid, content, contributor, timestamp):
