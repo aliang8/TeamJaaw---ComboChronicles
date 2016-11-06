@@ -48,7 +48,17 @@ def newentry():
 		stories.newEntry(title,entry)
 		return redirect(url_for("newentry"))
 	else:
-		return render_template('newentry.html', title = "Create Story")
+		return render_template('newentry.html', title = "New Entry")
+
+@app.route("/newstory/", methods=['GET','POST'])
+def newstory():
+	if request.method == 'POST':
+		title = request.form['title']
+		story = request.form['story']
+		stories.newStory(title,story)
+		return redirect(url_for("home"))
+	else:
+		return render_template('newstory.html', title = "Create Story")
 	
 @app.route("/posts/")
 def posts():

@@ -24,7 +24,7 @@ def authenticate():
 		if 'login' in request.form:
 			if auth.login(username,password):
 				session['username'] = username
-				return render_template('uhome.html',message = 'Login Successful')
+				return render_template('home.html',message = 'Login Successful')
 			else:
 				return render_template('home.html',message = 'Login Failed')
 		else:

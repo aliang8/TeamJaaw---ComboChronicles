@@ -10,7 +10,7 @@ c = db.cursor()
 def initializeTables():    
 	c.execute("CREATE TABLE IF NOT EXISTS accounts (id INTEGER PRIMARY KEY autoincrement, username TEXT NOT NULL, password TEXT NOT NULL)")
 	c.execute("CREATE TABLE IF NOT EXISTS entries (entryID INTEGER PRIMARY KEY autoincrement, title TEXT NOT NULL, content TEXT NOT NULL)")
-	
+	c.execute("CREATE TABLE IF NOT EXISTS stories (storyID INTEGER PRIMARY KEY autoincrement, title TEXT NOT NULL, content TEXT NOT NULL)")
 	
 #========================================================GENERIC CREATE FUNCTIONS=============================================================
 def newStory(title, storyid, content, contributor, timestamp):
