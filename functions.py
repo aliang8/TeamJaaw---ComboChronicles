@@ -151,7 +151,7 @@ def menuStories(numStories):
 	latestEntries = []
 	latestTitles = []
 	for story in latestStories:
-		data = c.execute("SELECT * FROM entries WHERE entries.storyid == ? ORDER BY entrynum DES" , (story,))
+		data = c.execute("SELECT * FROM entries WHERE entries.storyid == ? ORDER BY entryID DESC" , (story,))
 		entry = data.fetchone()
 		if entry:
 			latestEntries.append(entry[1]) #Entry[1] = content
@@ -201,3 +201,9 @@ print returnContributed('anthony')
 print returnContributed('jerry')
 print returnStory(3)
 print returnFinished('storyid')
+print myStoryList('anthony')
+print myStoryListID('anthony')
+print myStoryListDict('anthony')
+print menuStories(2)
+print libraryStories()
+print libraryStoriesDict()
