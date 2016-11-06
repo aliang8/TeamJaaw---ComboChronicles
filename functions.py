@@ -54,6 +54,8 @@ def changePass(username,password):
         db = sql.connect(STORIES)
         c = db.cursor()
         c.execute("UPDATE accounts SET password = ? WHERE username = ?", (hashpass,username,))
+	db.commit()
+
 #========================================================GENERIC CREATE FUNCTIONS=============================================================
 def newStory(title, content, contributor, timestamp):
 	db = sql.connect(STORIES)
