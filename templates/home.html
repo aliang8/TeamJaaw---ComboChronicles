@@ -10,20 +10,22 @@
 		A platform on which you can create collaborative stories with your friends and strangers!
 		</center>
 
+
 		<table style="width:100%", id="frontcols">
 		<tr>
 			<th>
 			<center>
 			<div class = "feed_wrapper">
 			<h2>Popular Stories</h2>
-			{% for title,story in titles_stories %}
+			{% for title,id,content,time in titles_stories %}
 			<a href = "{{url_for ('login')}}"><h3>{{title}}</h3></a>
-			<b>{{story}}</b>
+			{{content}} 
+			<br>
+			<i>Updated: {{time}}</i>
 			<hr>
 			{% endfor %}
 			</div>
 			</center>
-				
 			</th>
 			<th>
 				<div class = "start_wrapper">
@@ -56,7 +58,7 @@
 			<div class = "feed_wrapper">
 			<h2>Popular Stories</h2>
 			{% for title,id,content,time in titles_stories %}
-			<a href = "newentry/{{id}}"><h3>{{title}}</h3></a>
+			<a href = "newentry/{{id}}/{{title}}"><h3>{{title}}</h3></a>
 			{{content}} 
 			<br>
 			<i>Updated: {{time}}</i>

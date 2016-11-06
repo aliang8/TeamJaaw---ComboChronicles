@@ -5,13 +5,20 @@
 {% block content %}
 
 {% if 'username' in session%}
-<h1> New Entry for {{story}}</h1>
+<center>
+<h1> New Entry for <i>{{story}}</i></h1>
 
 <form action = "/newentry/" method = "POST">
-  <input type = "text" name = "entry">
+<i>{{content}}</i>
+{{stats}}
+<br>
+<br>
+<textarea name="entry"  maxlength="350" rows="10" cols="60">
+</textarea>
   <br>
   <input type="submit" value = "Submit Addition" name = "{{story}}">
 </form>
+</center>
 {% endif %}
 
 {% endblock %}
