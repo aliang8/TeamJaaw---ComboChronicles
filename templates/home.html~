@@ -21,16 +21,21 @@
 	{% endif %}
 
 	{% if 'username' in session %}
-	<h2>Start a Story</h2>
-	<h3> {{message}} </h3>
-	<form action="/newstory/" method = "GET">
-	  <input type="submit" value="Begin Writing">
-	</form>
-	<br>
-	<br>
-	<h2>Popular Stories</h2>
-	<br>
-	FEED PLACEHOLDER
+		<h2>Start a Story</h2>
+		<h3> {{message}} </h3>
+		<form action="/newstory/" method = "GET">
+		  <input type="submit" value="Begin Writing">
+		</form>
+		<br>
+		<br>
+		<h2>Popular Stories</h2>
+		<br>
+		{% for title,story in titles_stories %}
+		<h2>{{title}}</h2>
+		<br>
+		<h3>{{story}}</h3>
+		<br>
+		{% endfor %}
 	{% endif %}
-
+		
 {% endblock %}

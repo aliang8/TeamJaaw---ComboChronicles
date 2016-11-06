@@ -3,14 +3,10 @@
 {% block content %}
 
 {% if 'username' in session%}
-<h1> Which story do you want to contribute to? </h1>
+<h1> New Entry for {{story}}</h1>
 
 <form action = "/newentry/" method = "POST">
-  StoryID: <br>
-  <input type = "text" name = "storyid">
-  <br>
-  Title: <br>
-  <input type = "text" name = "title">
+  <input type = "text" name = "entry">
   <br>
   <input type="submit" name = "Let's Go!">
 </form>

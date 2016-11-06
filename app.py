@@ -1,4 +1,4 @@
-import random, functions, hashlib, sqlite3, auth, stories, time
+import random, functions, hashlib, sqlite3, time
 from flask import Flask, render_template, session, redirect, url_for, request
 
 app = Flask(__name__) 
@@ -23,13 +23,13 @@ def authenticate():
 		password = request.form['pass']
 		hashpass = hashlib.sha224(password).hexdigest()
 		if 'login' in request.form:
-			if auth.login(username,password):
+			if functions.login(username,password):
 				session['username'] = username
 				return render_template('home.html',message = 'Login Successful')
 			else:
 				return render_template('home.html',message = 'Login Failed')
 		else:
-			if auth.register(username,password):
+			if functions.register(username,password):
 				return render_template('home.html',message = 'Registration Successful')
 			else:
 				return render_template('home.html',message = 'Registration Failed')
@@ -44,22 +44,13 @@ def logout():
 @app.route("/newentry/", methods=['GET','POST'])
 def newentry():
 	if request.method == 'POST':
-		storyid = request.form['storyid']
-		title = request.form['title']
-		return render_template("newentry2.html", story = title, storyid = storyid)
-	else:
-		return render_template("newentry.html")
-
-@app.route("/newentry2/", methods=['GET','POST'])
-def newentry2():
-	if request.method == 'POST':
+		storyTitle = request.args.get('title')
+		storyID = functions.getstoryID(storyTitle)
 		entry = request.form['entry']
-		
-		print request.args.get('storyid')
-		functions.newEntry(storyid,entry,sessions['username'],time.strftime("%Y-%m-%d %H:%M:%S"))
+		functions.newEntry(storyID,entry,sessions['username'],time.strftime("%Y-%m-%d %H:%M:%S"))
 		return redirect(url_for("newentry"))
 	else:
-		return render_template('newentry2.html', title = "New Entry")
+		return render_template('newentry.html', title = "New Entry", story = storyTitle)
 
 @app.route("/newstory/", methods=['GET','POST'])
 def newstory():

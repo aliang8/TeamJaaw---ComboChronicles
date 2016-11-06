@@ -1,3 +1,4 @@
 clean: 
-	rm data/stories.db	
-	rm *~	
+	rm *~
+	rm *.pyc	
+	
