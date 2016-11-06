@@ -51,6 +51,13 @@ def logout():
         session.pop('username')
 	return redirect(url_for("home", message = "Successfully logged out"))
 
+@app.route("/story/<storyid>/<storytitle>/", methods=['GET','POST'])
+def story(storyid, storytitle):
+	co = functions.returnStory(storyid)
+	for i in co:
+		print i
+	return render_template("story.html", story = storytitle, content = functions.returnStory(storyid))
+
 @app.route("/newentry/<storyid>/<storytitle>/", methods=['GET','POST'])
 def newentry(storyid, storytitle):
 	if request.method == 'POST':
