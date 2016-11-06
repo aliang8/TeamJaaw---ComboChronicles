@@ -10,11 +10,11 @@ c = db.cursor()
 
 @app.route("/", methods = ['POST','GET'])
 def new():
-	return render_template('home.html', title = "ComboChronicles", titles_stories = zip(functions.menuStories(10)[0], functions.menuStories(10)[2]))
+	return render_template('home.html', title = "ComboChronicles", titles_stories = zip(functions.menuStories(10)[0], functions.menuStories(10)[1], functions.menuStories(10)[2], functions.menuStories(10)[3]))
 
 @app.route("/<message>", methods = ['POST','GET'])
 def home(message):	
-	return render_template('home.html', title = "ComboChronicles", message = message, titles_stories = zip(functions.menuStories(10)[0],functions.menuStories(10)[2]))
+	return render_template('home.html', title = "ComboChronicles", message = message, titles_stories = zip(functions.menuStories(10)[0], functions.menuStories(10)[1], functions.menuStories(10)[2], functions.menuStories(10)[3])) 
 
 @app.route("/login/", methods = ['POST','GET'])
 def login():
