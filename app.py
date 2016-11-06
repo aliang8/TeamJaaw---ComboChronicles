@@ -10,11 +10,11 @@ c = db.cursor()
 
 @app.route("/", methods = ['POST','GET'])
 def new():
-	return render_template('home.html', title = "ComboChronicles", titles_stories = zip(functions.menuStories(10)[0], functions.menuStories(10)[2]))
+	return render_template('home.html', title = "ComboChronicles", titles_stories = zip(functions.menuStories(10)[0], functions.menuStories(10)[1], functions.menuStories(10)[2], functions.menuStories(10)[3]))
 
 @app.route("/<message>", methods = ['POST','GET'])
 def home(message):	
-	return render_template('home.html', title = "ComboChronicles", message = message, titles_stories = zip(functions.menuStories(10)[0],functions.menuStories(10)[2]))
+	return render_template('home.html', title = "ComboChronicles", message = message, titles_stories = zip(functions.menuStories(10)[0], functions.menuStories(10)[1], functions.menuStories(10)[2], functions.menuStories(10)[3])) 
 
 @app.route("/login/", methods = ['POST','GET'])
 def login():
@@ -45,17 +45,18 @@ def logout():
         session.pop('username')
 	return redirect(url_for("home", message = "Successfully logged out"))
 
-@app.route("/newentry/", methods=['GET','POST'])
-def newentry():
+@app.route("/newentry/<storyid>", methods=['GET','POST'])
+def newentry(storyid):
 	if request.method == 'POST':
 		storyTitle = request.form.keys()[1]
-		storyID = functions.getstoryID(storyTitle)
+		storyID = storyid
 		entry = request.form['entry']
 		functions.newEntry(storyID,entry,session['username'],time.strftime("%Y-%m-%d %H:%M:%S"))
 		return redirect(url_for("home", message = "Awesome, new entry for " + storyTitle + " submitted!"))
 	else:
 		storyTitle = request.args.get('title')
 		return render_template('newentry.html', title = "New Entry", story = storyTitle)
+
 
 @app.route("/newstory/", methods=['GET','POST'])
 def newstory():
@@ -67,22 +68,14 @@ def newstory():
 	else:
 		return render_template('newstory.html', title = "Create Story")
 	
-@app.route("/posts/")
-def posts():
-	return render_template('posts.html')
-	
 @app.route("/account/")
 def account():
-	storyList = functions.myStoryList(session['username'])
-	return render_template('account.html', title = "My Account", userstories = zip(storyList[0],storyList[3]))
+	return render_template('account.html', title = "My Account", userstories = functions.myStoryListDict(session['username']))
 
 @app.route('/user/<username>/')
 def show_user_profile(username):
-	return render_template('account.html', title =  username+ "'s Account", user = username);
+	return render_template('account.html', title =  username+ "'s Account", user = username, userstories = functions.myStoryListDict(user))
 
-@app.route('/story/<int:post_id>/')
-def show_post(post_id):
-	return render_template('post.html', title = "", postid = post_id)
 
 @app.route("/library/")
 def library():

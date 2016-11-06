@@ -206,7 +206,7 @@ def menuStories(numStories):
 		entry = data.fetchone()
 		if entry:
 			latestEntries.append(entry[1]) #Entry[1] = content
-            latestTimes.append(entry[4])
+			latestTimes.append(entry[4])
 		data = c.execute("SELECT * FROM stories WHERE stories.storyid == ?" , (story,))
 		entry = data.fetchone()
 		if entry:
