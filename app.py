@@ -1,11 +1,12 @@
-import random, functions, hashlib, sqlite3, auth, stories
+import random, functions, hashlib, sqlite3, auth, stories, time
 from flask import Flask, render_template, session, redirect, url_for, request
-from datetime import datetime
 
 app = Flask(__name__) 
 app.secret_key = '\xe9$=P\nr\xbc\xcd\xa5\xe5I\xba\x86\xeb\x81L+%,\xcb\xcb\xf46d\xf9\x99\x1704\xcd(\xfc'
 
 f = 'data/stories.db'
+db = sqlite3.connect(f)
+c = db.cursor()
 
 @app.route("/", methods = ['POST','GET'])
 def home():	
@@ -45,7 +46,7 @@ def newentry():
 	if request.method == 'POST':
 		title = request.form['title']
 		entry = request.form['entry']
-		stories.newEntry(title,entry)
+		functions.newEntry(title,entry)
 		return redirect(url_for("newentry"))
 	else:
 		return render_template('newentry.html', title = "New Entry")
@@ -55,7 +56,7 @@ def newstory():
 	if request.method == 'POST':
 		title = request.form['title']
 		story = request.form['story']
-		stories.newStory(title,story)
+		functions.newStory(title,story,session['username'],time.strftime("%Y-%m-%d %H:%M:%S"))
 		return render_template('home.html',message = "Awesome, you started a new story!")
 	else:
 		return render_template('newstory.html', title = "Create Story")
@@ -82,5 +83,5 @@ def library():
 
 if __name__ == "__main__":
 	app.debug = True 
-	functions.initializeTables()
 	app.run()
+	functions.initializeTables()

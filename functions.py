@@ -2,20 +2,24 @@ import sqlite3 as sql
 import hashlib
 
 #CONNECT DATABASE
-f= "data/stories.db"
-db = sql.connect(f)
-c = db.cursor()
+STORIES = "data/stories.db"
 
 #Initialize databases. Only works once.
 def initializeTables():    
-	c.execute("CREATE TABLE IF NOT EXISTS accounts (id INTEGER PRIMARY KEY autoincrement, username TEXT NOT NULL, password TEXT NOT NULL)")
-	c.execute("CREATE TABLE IF NOT EXISTS entries (storyid INTEGER, content TEXT NOT NULL, entryID autoincrement, contributor TEXT NOT NULL, timestamp INTEGER)")
+	db = sql.connect(STORIES)
+	c = db.cursor()
+	c.execute("CREATE TABLE IF NOT EXISTS accounts (username TEXT NOT NULL, password TEXT NOT NULL)")
+	c.execute("CREATE TABLE IF NOT EXISTS entries (storyid INTEGER, content TEXT NOT NULL, entryID PRIMARY KEY autoincrement, contributor TEXT NOT NULL, timestamp TEXT NOT NULL)")
 	c.execute("CREATE TABLE IF NOT EXISTS stories (storyid INTEGER PRIMARY KEY, title TEXT NOT NULL)")
-	
+	db.commit()
+	db.close()
+
 #========================================================GENERIC CREATE FUNCTIONS=============================================================
 def newStory(title, content, contributor, timestamp):
-	c.execute("INSERT INTO stories VALUES(?, ?)", (NULL, title))
-	c.execute("INSERT INTO entries VALUES(?, ?, ?, ?, ?)" , (c.lastrowid, content, NULL, contributor, timestamp,))
+	db = sql.connect(STORIES)
+	c = db.cursor()
+	c.execute("INSERT INTO stories VALUES(?, ?)", ("null", title))
+	c.execute("INSERT INTO entries VALUES(?, ?, ?, ?, ?)" , (c.lastrowid, content, "null", contributor, timestamp,))
 	db.commit()
 
 def newEntry(storyid, content, contributor, timestamp):
@@ -179,9 +183,6 @@ def libraryStoriesDict():
 	return storyDict
 
 #=============================================================================================================================================
-
-db.commit()
-db.close()
 
 
 
