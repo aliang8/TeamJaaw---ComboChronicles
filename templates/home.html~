@@ -4,12 +4,13 @@
 
 {% block content %}
 
-	{% if flag != "login" %}
+	{% if 'username' not in session %}
 		<h2>Welcome to ComboChronicles</h2>
 		A platform on which you can create collaborative stories with your friends and strangers!
 		<br>
 		Get started!
 		<br>
+		<h3>{{message}}</h3>
 		<form action="/login/" method="POST">
 		  <input type = "submit" name = "log" value = "Login">
 		  <br>
@@ -19,7 +20,7 @@
 		</form>
 	{% endif %}
 
-	{% if flag == "login" %}
+	{% if 'username' in session %}
 	<h2>Start a Story</h2>
 		<form action="/newsubmit/" method="GET">
 			<input type="submit" value="Begin Writing">
