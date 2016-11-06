@@ -10,26 +10,27 @@
 	<h1>Welcome to the Library</h1>
 		See all the finished stories in one place!
 		<br>
+		<br>
 
 
-	<h4> Sort By </h4>
-	<form action = "/library/" method = "GET">
+	<b>Sort By</b>
+	<form action = "/library/alpha" method = "POST">
 	    <input type="submit" name = "sort" value = "Alphabetical">
-	    <input type="submit" name = "sort" value = "Time">
-	    <br>
-	    <br> 
-    </form>
+	</form>
+	<form action = "/library/time" method = "POST">
+	    <input type="submit" name = "sort" value = "Date/Time">
+	</form>
+	   
+    
 
 	</center>
 		<br>
 		<br>
-		{% for title in titles %}
-		<h2>{{title}}</h2>
-		<br>
-		{% for entry in entries %}
-		<h3>{{entry}}</h3>
-		{% endfor %}
-		{% endfor %}
+		<h3> Stories </h3>
+   		{%for key in stories%}
+   		<a href="/newentry/{{key}}/{{stories[key]}}">{{stories[key]}}</a>
+   		<br>
+		{%endfor%}
 	
 
 {% endblock %}

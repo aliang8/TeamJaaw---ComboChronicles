@@ -42,7 +42,7 @@ def authenticate():
 	
 @app.route("/logout/")
 def logout():
-        session.pop('username')
+	session.pop('username')
 	return redirect(url_for("home", message = "Successfully logged out"))
 
 @app.route("/newentry/<storyid>/<storytitle>/", methods=['GET','POST'])
@@ -83,18 +83,30 @@ def account():
 	else:
 		return render_template('account.html', title = "My Account", userstories = functions.myStoryListDict(session['username'])) 
 			
+
 @app.route('/user/<username>/')
 def show_user_profile(username):
 	return render_template('account.html', title =  username+ "'s Account", user = username, userstories = functions.myStoryListDict(user))
 
 
-@app.route("/library/")
+@app.route("/library/", methods=['GET','POST'])
 def library():
-	return render_template('library.html', title = "Library", titles = functions.libraryStories()[0], entries = functions.libraryStories()[2])
+	return render_template('library.html', title = "Library", stories = functions.libraryStoriesDict())
 
-@app.route("/library/<sort>")
+@app.route("/library/<sort>", methods=['GET','POST'])
 def libsort(sort):
 	return render_template('library.html', title = "Library", titles = functions.libraryStories()[0], entries = functions.libraryStories()[2])
+
+@app.route("/about/", methods=['GET','POST'])
+def about():
+	return render_template('about.html', title = "About")
+
+@app.route("/story/<storyid>/<storytitle>/", methods=['GET','POST'])
+def story(storyid, storytitle):
+	co = functions.returnStory(storyid)
+	for i in co:
+		print i
+	return render_template("story.html", story = storytitle, content = functions.returnStory(storyid))
 
 if __name__ == "__main__":
 	app.debug = True 

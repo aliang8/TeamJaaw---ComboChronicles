@@ -25,13 +25,15 @@
 		<br>
 		Change your Password:
 		<br>
-		<form action = "/pc/" method = "POST">
-		<br>
-		    <input type="password" name="pass"><br>
-		    <input type="submit" name = "login" value = "Confirm Password">
-		    <br>
-		    <br> 
-  		</form>
+		<form action = "/account/" method = "POST">
+ 		  <br>
+ 		  Username: <br>
+ 		  <input type = "text" name = "user"><br>
+ 		  Old Password: <br>
+ 		  <input type = "password" name = "oldpass"><br>
+ 		  New Password: <br>
+ 		  <input type = "password" name = "newpass"><br>
+ 		  <input type="submit" name = "changepass" value = "Change Password">
 	</center>
 
 	{% endif %}

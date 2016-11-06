@@ -49,17 +49,11 @@ def login(username,password):
 		return True
 	db.commit()
 
-def changePass(username,oldpass,newpass):
-	hashnewpass = hashlib.sha224(newpass).hexdigest()
+def changePass(username,password):
+        hashpass = hashlib.sha224(password).hexdigest()
         db = sql.connect(STORIES)
         c = db.cursor()
-	exists = login(username,oldpass)
-	if exists:
-		c.execute("UPDATE accounts SET password = ? WHERE username = ?", (hashnewpass,username,))
-		return True
-	else:
-		return False
-
+        c.execute("UPDATE accounts SET password = ? WHERE username = ?", (hashpass,username,))
 #========================================================GENERIC CREATE FUNCTIONS=============================================================
 def newStory(title, content, contributor, timestamp):
 	db = sql.connect(STORIES)
@@ -249,7 +243,7 @@ def libraryStoriesDict():
 	allStories = returnFinished('storyid')
 	storyDict = {}
 	for story in allStories:
-		title = c.execute("SELECT * FROM stories WHERE story.id == ? ORDER BY storyid ASC", (story,))
+		title = c.execute("SELECT * FROM stories WHERE storyid == ? ORDER BY storyid ASC", (story,))
 		title = title.fetchone()
 		storyDict[story] = title[1]
 	return storyDict
