@@ -54,8 +54,10 @@ def changePass(username,oldpass,newpass):
         db = sql.connect(STORIES)
         c = db.cursor()
 	exists = login(username,oldpass)
+	print exists
 	if exists:
 		c.execute("UPDATE accounts SET password = ? WHERE username = ?", (hashnewpass,username,))
+		db.commit()
 		return True
 	else:
 		return False

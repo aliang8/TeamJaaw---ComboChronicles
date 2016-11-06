@@ -77,7 +77,7 @@ def newstory():
 @app.route("/account/", methods=['GET','POST'])
 def account():
 	if request.method == 'POST':
-		username = request.form['user']
+		username = session['username']
 		oldpass = request.form['oldpass']
 		newpass = request.form['newpass']
 		if functions.changePass(username,oldpass,newpass):
