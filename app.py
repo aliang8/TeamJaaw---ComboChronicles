@@ -44,11 +44,11 @@ def logout():
 @app.route("/newentry/", methods=['GET','POST'])
 def newentry():
 	if request.method == 'POST':
-		storyTitle = request.args.get('title')
+		storyTitle = request.form.keys()[1]
 		storyID = functions.getstoryID(storyTitle)
 		entry = request.form['entry']
-		functions.newEntry(storyID,entry,sessions['username'],time.strftime("%Y-%m-%d %H:%M:%S"))
-		return redirect(url_for("newentry"))
+		functions.newEntry(storyID,entry,session['username'],time.strftime("%Y-%m-%d %H:%M:%S"))
+		return redirect(url_for("home"))
 	else:
 		storyTitle = request.args.get('title')
 		return render_template('newentry.html', title = "New Entry", story = storyTitle)

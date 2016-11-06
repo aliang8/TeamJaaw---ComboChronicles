@@ -17,8 +17,9 @@ def initializeTables():
 def getstoryID(title):
 	db = sql.connect(STORIES)
 	c = db.cursor()
-	id = c.execute("SELECT storyid FROM stories WHERE title = ?" , (title,))
-	return id.fetchone()[0]
+	l = c.execute("SELECT storyid FROM stories WHERE title = ?" , (title,))
+	id = c.fetchall()
+	return id[0][0]
 
 
 
@@ -57,7 +58,9 @@ def newStory(title, content, contributor, timestamp):
 	db.commit()
 
 def newEntry(storyid, content, contributor, timestamp):
-	c.execute("INSERT INTO entries VALUES(?, ?, ?, ?, ?)" , (storyid, content, NULL, contributor, timestamp,))
+	db = sql.connect(STORIES)
+	c = db.cursor()
+	c.execute("INSERT INTO entries (storyid, content, contributor, timestamp) VALUES(?, ?, ?, ?)" , (storyid, content, contributor, timestamp,))
 	db.commit()
 
 #=============================================================================================================================================
