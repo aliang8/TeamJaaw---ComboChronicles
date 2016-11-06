@@ -36,3 +36,18 @@ li a:hover:not(.active) {
 .active {
     background-color: #003449;
 }
+
+#zoom
+{
+box-shadow:1px 1px 45px #333;
+transition: 200ms all ease;
+border:none;
+padding: 5px 5px;
+
+}
+#zoom:hover
+{
+margin:-5px 0 0 -5px;
+height:29px;
+width:250px;
+}

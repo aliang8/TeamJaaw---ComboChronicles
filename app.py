@@ -47,10 +47,9 @@ def logout():
 
 @app.route("/newentry/<storyid>/<storytitle>/", methods=['GET','POST'])
 def newentry(storyid, storytitle):
+	if [storyid in functions.returnContributed(session['username'])]:
+		return redirect(url_for("story", storyid = storyid, storytitle = storytitle))
 	if request.method == 'POST':
-		if [storyid in functions.returnContributed(session['username'])]:
-			return redirect(url_for('newentry',storyid = storyid, storytitle = storytitle, message = "Looks like you already contributed to this story. :( Try another!"))
-		else:
 			storyTitle = storytitle
 			storyID = storyid
 			entry = request.form['entry']
