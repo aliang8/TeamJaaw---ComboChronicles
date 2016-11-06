@@ -87,6 +87,16 @@ def getTitle(storyID):
     return data.fetchone()[1]
 
 
+#how many entries in a story
+def returnNumEntries(storyid):
+	db = sql.connect(STORIES)
+	c = db.cursor()
+	count = 0
+	data = c.execute("SELECT content FROM entries WHERE entries.storyid = ?" , (storyid,))
+	for row in data:
+		count+=1
+	return count
+
 
 #Returns a list of all posts a user has contributed to
 def returnContributed(username):
@@ -269,8 +279,5 @@ def storyExists(title):
 
 
 
-print menuStories(2)
-print getstoryID('hi')
-print returnFinished('storyid')
-libraryStories()
-print returnLatest(2)
+print [2 in returnContributed('anthony')]
+print returnNumEntries(2)
