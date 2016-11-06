@@ -45,18 +45,6 @@ def logout():
         session.pop('username')
 	return redirect(url_for("home", message = "Successfully logged out"))
 
-# @app.route("/newentry/", methods=['GET','POST'])
-# def newentry():
-# 	if request.method == 'POST':
-# 		storyTitle = request.form.keys()[1]
-# 		storyID = functions.getstoryID(storyTitle)
-# 		entry = request.form['entry']
-# 		functions.newEntry(storyID,entry,session['username'],time.strftime("%Y-%m-%d %H:%M:%S"))
-# 		return redirect(url_for("home", message = "Awesome, new entry for " + storyTitle + " submitted!"))
-# 	else:
-# 		storyTitle = request.args.get('title')
-# 		return render_template('newentry.html', title = "New Entry", story = storyTitle)
-
 @app.route("/newentry/<storyid>", methods=['GET','POST'])
 def newentry(storyid):
 	if request.method == 'POST':
@@ -80,10 +68,6 @@ def newstory():
 	else:
 		return render_template('newstory.html', title = "Create Story")
 	
-@app.route("/posts/")
-def posts():
-	return render_template('posts.html')
-	
 @app.route("/account/")
 def account():
 	return render_template('account.html', title = "My Account", userstories = functions.myStoryListDict(session['username']))
@@ -92,9 +76,6 @@ def account():
 def show_user_profile(username):
 	return render_template('account.html', title =  username+ "'s Account", user = username, userstories = functions.myStoryListDict(user))
 
-@app.route('/story/<int:post_id>/')
-def show_post(post_id):
-	return render_template('post.html', title = "", postid = post_id)
 
 @app.route("/library/")
 def library():
