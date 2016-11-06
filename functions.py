@@ -49,12 +49,16 @@ def login(username,password):
 		return True
 	db.commit()
 
-def changePass(username,password):
-        hashpass = hashlib.sha224(password).hexdigest()
+def changePass(username,oldpass,newpass):
+	hashnewpass = hashlib.sha224(newpass).hexdigest()
         db = sql.connect(STORIES)
         c = db.cursor()
-        c.execute("UPDATE accounts SET password = ? WHERE username = ?", (hashpass,username,))
-	db.commit()
+	exists = login(username,oldpass)
+	if exists:
+		c.execute("UPDATE accounts SET password = ? WHERE username = ?", (hashnewpass,username,))
+		return True
+	else:
+		return False
 
 #========================================================GENERIC CREATE FUNCTIONS=============================================================
 def newStory(title, content, contributor, timestamp):

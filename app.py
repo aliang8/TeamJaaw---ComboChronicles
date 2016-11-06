@@ -20,12 +20,6 @@ def home(message):
 def login():
 	return render_template('login.html', title = "login")
 
-@app.route("/pc/", methods = ['POST','GET'])
-def pc():
-	functions.changePass(session['username'],request.form['pass'])
-	session.pop('username')
-	return redirect(url_for("login"))
-
 @app.route("/authenticate/", methods = ['POST','GET'])
 def authenticate():
 	if request.method == 'POST':
@@ -50,13 +44,6 @@ def authenticate():
 def logout():
         session.pop('username')
 	return redirect(url_for("home", message = "Successfully logged out"))
-
-@app.route("/story/<storyid>/<storytitle>/", methods=['GET','POST'])
-def story(storyid, storytitle):
-	co = functions.returnStory(storyid)
-	for i in co:
-		print i
-	return render_template("story.html", story = storytitle, content = functions.returnStory(storyid))
 
 @app.route("/newentry/<storyid>/<storytitle>/", methods=['GET','POST'])
 def newentry(storyid, storytitle):
@@ -83,10 +70,19 @@ def newstory():
 	else:
 		return render_template('newstory.html', title = "Create Story")
 	
-@app.route("/account/")
+@app.route("/account/", methods=['GET','POST'])
 def account():
-	return render_template('account.html', title = "My Account", userstories = functions.myStoryListDict(session['username']))
-
+	if request.method == 'POST':
+		username = request.form['user']
+		oldpass = request.form['oldpass']
+		newpass = request.form['newpass']
+		if functions.changePass(username,oldpass,newpass):
+			return render_template('account.html', title = "My Account", userstories = functions.myStoryListDict(session['username']), message = "Successfully changed password")
+		else:
+			return render_template('account.html', title = "My Account", userstories = functions.myStoryListDict(session['username']), message = "Password change failed") 
+	else:
+		return render_template('account.html', title = "My Account", userstories = functions.myStoryListDict(session['username'])) 
+			
 @app.route('/user/<username>/')
 def show_user_profile(username):
 	return render_template('account.html', title =  username+ "'s Account", user = username, userstories = functions.myStoryListDict(user))
