@@ -8,8 +8,13 @@
 		See all the stories and edit them from one place!
 		<br>
 		<br>
-		
-
+		{% for title in titles %}
+		<h2>{{title}}</h2>
+		<br>
+		{% for entry in entries %}
+		<h3>{{entry}}</h3>
+		{% endfor %}
+		{% endfor %}
 	
 
 {% endblock %}
