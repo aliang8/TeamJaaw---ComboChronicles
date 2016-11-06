@@ -156,8 +156,20 @@ def returnLastEntry(storyid):
 	data = c.execute("SELECT * FROM entries WHERE entries.storyid == ? ORDER BY timestamp DESC", (storyid,))
 	entry = data.fetchone()
 	return entry
-#==============================================================================================================================================
 
+def returnStoryInfo(storyid):
+	content = []
+	contributors = []
+	timestamp = []
+	db = sql.connect(STORIES)
+	c = db.cursor()
+	data = c.execute("SELECT content,contributor,timestamp FROM entries WHERE storyid = ?" , (storyid,))
+	for row in data:
+		content.append(row[0])
+		contributors.append(row[1])
+		timestamp.append(row[2])
+	return (content, contributors, timestamp,)
+#==============================================================================================================================================
 
 
 #=============================================================FOR DISPLAY FUNCTIONS============================================================
@@ -281,3 +293,4 @@ def storyExists(title):
 
 print [2 in returnContributed('anthony')]
 print returnNumEntries(2)
+print returnStoryInfo(2)
