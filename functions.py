@@ -193,16 +193,18 @@ def menuStories(numStories):
 	latestStories = returnLatest(numStories)
 	latestEntries = []
 	latestTitles = []
+	latestTimes = []
 	for story in latestStories:
 		data = c.execute("SELECT * FROM entries WHERE entries.storyid == ? ORDER BY entryID DESC" , (story,))
 		entry = data.fetchone()
 		if entry:
 			latestEntries.append(entry[1]) #Entry[1] = content
+            latestTimes.append(entry[4])
 		data = c.execute("SELECT * FROM stories WHERE stories.storyid == ?" , (story,))
 		entry = data.fetchone()
 		if entry:
 			latestTitles.append(entry[1]) #Entry[1] = title
-	return (latestTitles, latestStories, latestEntries,)
+	return (latestTitles, latestStories, latestEntries,latestTimes,)
 
 
 #Returns the list for all stories that were finished. To be used for the library
