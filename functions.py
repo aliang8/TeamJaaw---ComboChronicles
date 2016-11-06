@@ -19,7 +19,7 @@ def newStory(title, content, contributor, timestamp):
 	db = sql.connect(STORIES)
 	c = db.cursor()
 	c.execute("INSERT INTO stories (title) VALUES (?)", (title,))
-	c.execute("INSERT INTO entries (storyid, content, contributor, timestamp) VALUES(?, ?, ?, ?)" , (c.lastrowid, content, contributor, timestamp,))
+	c.execute("INSERT INTO entries (storyid, content, contributor, timestamp) VALUES(?, ?, ?, ?)" , (c.lastrowid, content.strip(), contributor, timestamp,))
 	db.commit()
 
 def newEntry(storyid, content, contributor, timestamp):

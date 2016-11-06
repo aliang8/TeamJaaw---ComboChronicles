@@ -22,10 +22,10 @@ def login(username,password):
     db = sql.connect(STORIES)
     c = db.cursor()
     users = c.execute("SELECT password FROM accounts WHERE username = ?", (username,))
-    if c.fetchone()[0] == hashpass: 
-        return True
-    else:
+    if c.fetchone() is None:
         return False
+    elif c.fetchone() == (hashpass,):
+        return True
     db.commit()
     db.close()
 
