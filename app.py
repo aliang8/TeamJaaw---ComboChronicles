@@ -82,5 +82,5 @@ def library():
 
 if __name__ == "__main__":
 	app.debug = True 
-	functions.initializeTable()
+	functions.initializeTables()
 	app.run()
