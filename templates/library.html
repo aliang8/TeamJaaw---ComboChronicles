@@ -26,11 +26,15 @@
 	</center>
 		<br>
 		<br>
+		<center>
 		<h3> Stories </h3>
    		{%for key in stories%}
+   		<div class="libstory_wrapper">
    		<a href="/story/{{key}}/{{stories[key]}}">{{stories[key]}}</a>
+   		</div>
    		<br>
 		{%endfor%}
+		</center>
 	
 
 {% endblock %}
