@@ -10,7 +10,7 @@ c = db.cursor()
 
 @app.route("/", methods = ['POST','GET'])
 def home():	
-	return render_template('home.html', title = "ComboChronicles")
+	return render_template('home.html', title = "ComboChronicles", titles_stories = zip(functions.menuStories(10)[0],functions.menuStories(10)[2]))
 
 @app.route("/login/", methods = ['POST','GET'])
 def login():
@@ -41,15 +41,25 @@ def logout():
         session.pop('username')
 	return redirect(url_for("home"))
 
-@app.route("/newentry/", methods=['GET', 'POST'])
+@app.route("/newentry/", methods=['GET','POST'])
 def newentry():
 	if request.method == 'POST':
+		storyid = request.form['storyid']
 		title = request.form['title']
+		return render_template("newentry2.html", story = title, storyid = storyid)
+	else:
+		return render_template("newentry.html")
+
+@app.route("/newentry2/", methods=['GET','POST'])
+def newentry2():
+	if request.method == 'POST':
 		entry = request.form['entry']
-		functions.newEntry(title,entry)
+		
+		print request.args.get('storyid')
+		functions.newEntry(storyid,entry,sessions['username'],time.strftime("%Y-%m-%d %H:%M:%S"))
 		return redirect(url_for("newentry"))
 	else:
-		return render_template('newentry.html', title = "New Entry")
+		return render_template('newentry2.html', title = "New Entry")
 
 @app.route("/newstory/", methods=['GET','POST'])
 def newstory():
@@ -79,7 +89,7 @@ def show_post(post_id):
 
 @app.route("/library/")
 def library():
-	return render_template('library.html', title = "Library")
+	return render_template('library.html', title = "Library", libStories = functions.libraryStories())
 
 if __name__ == "__main__":
 	app.debug = True 

@@ -195,15 +195,5 @@ def libraryStoriesDict():
 
 
 
-print returnLatest(3)
-print returnContributors(2)
-print returnContributed('anthony')
-print returnContributed('jerry')
-print returnStory(3)
-print returnFinished('storyid')
-print myStoryList('anthony')
-print myStoryListID('anthony')
-print myStoryListDict('anthony')
 print menuStories(2)
-print libraryStories()
-print libraryStoriesDict()
+

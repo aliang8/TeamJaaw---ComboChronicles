@@ -2,16 +2,18 @@
 
 {% block content %}
 
-	<h1> Start a New Story </h1>
-	
-	<form action = "/newentry/" method = "POST">
-		Title<br>
-		<input type="text" name="title"><br>
-		Story<br>
-		<textarea name="entry" maxlength="350" rows="10" cols="30">
-		</textarea>
-		<br>
-		<input type="submit" name = "newentry">
-	</form>
+{% if 'username' in session%}
+<h1> Which story do you want to contribute to? </h1>
+
+<form action = "/newentry/" method = "POST">
+  StoryID: <br>
+  <input type = "text" name = "storyid">
+  <br>
+  Title: <br>
+  <input type = "text" name = "title">
+  <br>
+  <input type="submit" name = "Let's Go!">
+</form>
+{% endif %}
 
 {% endblock %}
