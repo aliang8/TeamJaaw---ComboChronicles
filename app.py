@@ -18,13 +18,11 @@ def home(message):
 
 @app.route("/login/", methods = ['POST','GET'])
 def login():
+ 	if request.form['submit'] == "Confirm Password":
+		functions.changePass(session['username'],request.form['pass'])
+		session.pop('username')
 	return render_template('login.html', title = "login")
 
-@app.route("/pc/", methods = ['POST','GET'])
-def pc():
-	functions.changePass(session['username'],request.form['pass'])
-	session.pop('username')
-	return redirect(url_for("login"))
 @app.route("/authenticate/", methods = ['POST','GET'])
 def authenticate():
 	if request.method == 'POST':
@@ -62,7 +60,7 @@ def newentry(storyid, storytitle):
 		statlist = functions.returnLastEntry(storyid)
 		contentholder = functions.returnStory(storyid)
 		print contentholder
-		return render_template('newentry.html', title = "New Entry", story = storytitle, content = functions.returnStory(storyid)[-1], stats = 'by ' + statlist[3] + " at " + statlist[4])
+		return render_template('newentry.html', title = "New Entry", id = storyid, story = storytitle, content = functions.returnStory(storyid)[-1], stats = 'by ' + statlist[3] + " at " + statlist[4])
 
 
 @app.route("/newstory/", methods=['GET','POST'])
