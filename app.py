@@ -73,7 +73,8 @@ def posts():
 	
 @app.route("/account/")
 def account():
-	return render_template('account.html', title = "My Account", userstories = functions.myStoryList(session['username']))
+	storyList = functions.myStoryList(session['username'])
+	return render_template('account.html', title = "My Account", userstories = zip(storyList[0],storyList[3]))
 
 @app.route('/user/<username>/')
 def show_user_profile(username):

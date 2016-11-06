@@ -15,8 +15,8 @@
 
 	<center>
 		<h3> Your Stories </h3>
-   		{%for title in userstories[0]%}
-   		<a href="/stories/{{tile}}">{{title}}</a>
+   		{%for title,id in userstories%}
+   		<a href="/stories/{{id}}">{{title}}</a>
    		<br>
 		{%endfor%}
 
