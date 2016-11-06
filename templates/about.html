@@ -1,14 +1,41 @@
 {% extends "index.html" %}
 
-{% block title %}About{% endblock %}
+{% block title %}
+	{% if 'username' in session %}
+	About
+	{% endif %}
+
+	{% if 'username' not in session %}
+	Instructions
+	{% endif %}
+{% endblock %}
 
 {% if 'username' in session %}
-{% block abact %}class="active"{% endblock %}
-{% block insact %}class="active"{% endblock %}
+	{% block insact %}class="active"{% endblock %}
+
+{% endif %}
+
+{% if 'username' not in session %}
+	{% block abact %}class="active"{% endblock %}
 {% endif %}
 
 
-
 {% block content %}
+
+	{% if 'username' not in session %}
+	<center>
+	<h1>About</h1>
+	</center>
+
+	{% endif %}
+
+	{% if 'username' in session %}
+	<center>
+	<h1>Instructions</h1>
+	</center>
+
+	{% endif %}
+
+
 
 {% endblock %}
