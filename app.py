@@ -45,18 +45,17 @@ def logout():
 	session.pop('username')
 	return redirect(url_for("home", message = "Successfully logged out"))
 
-@app.route("/story/<storyid>/<storytitle>/", methods=['GET', 'POST'])
-def storyp(storyid, storytitle):
-	return render_template("story.html", story = storytitle, content = functions.returnStory(storyid)) 
-
 @app.route("/newentry/<storyid>/<storytitle>/", methods=['GET','POST'])
 def newentry(storyid, storytitle):
 	if request.method == 'POST':
-		storyTitle = storytitle
-		storyID = storyid
-		entry = request.form['entry']
-		functions.newEntry(storyID,entry,session['username'],time.strftime("%Y-%m-%d %H:%M:%S"))
-		return redirect(url_for("home", message = "Awesome, new entry for " + storyTitle + " submitted!"))
+		if [storyid in functions.returnContributed(session['username'])]:
+			return redirect(url_for('newentry',storyid = storyid, storytitle = storytitle, message = "Looks like you already contributed to this story. :( Try another!"))
+		else:
+			storyTitle = storytitle
+			storyID = storyid
+			entry = request.form['entry']
+			functions.newEntry(storyID,entry,session['username'],time.strftime("%Y-%m-%d %H:%M:%S"))
+			return redirect(url_for("home", message = "Awesome, new entry for " + storyTitle + " submitted!"))
 	else:
 		statlist = functions.returnLastEntry(storyid)
 		contentholder = functions.returnStory(storyid)
@@ -77,7 +76,7 @@ def newstory():
 @app.route("/account/", methods=['GET','POST'])
 def account():
 	if request.method == 'POST':
-		username = session['username']
+		username = request.form['user']
 		oldpass = request.form['oldpass']
 		newpass = request.form['newpass']
 		if functions.changePass(username,oldpass,newpass):
