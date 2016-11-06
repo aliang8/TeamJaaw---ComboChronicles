@@ -8,9 +8,9 @@ f = 'data/stories.db'
 db = sqlite3.connect(f)
 c = db.cursor()
 
-@app.route("/", methods = ['POST','GET'])
-def home():	
-	return render_template('home.html', title = "ComboChronicles", titles_stories = zip(functions.menuStories(10)[0],functions.menuStories(10)[2]))
+@app.route("/<message>", methods = ['POST','GET'])
+def home(message):	
+	return render_template('home.html', title = "ComboChronicles", message = message, titles_stories = zip(functions.menuStories(10)[0],functions.menuStories(10)[2]))
 
 @app.route("/login/", methods = ['POST','GET'])
 def login():
@@ -48,7 +48,7 @@ def newentry():
 		storyID = functions.getstoryID(storyTitle)
 		entry = request.form['entry']
 		functions.newEntry(storyID,entry,session['username'],time.strftime("%Y-%m-%d %H:%M:%S"))
-		return redirect(url_for("home"))
+		return redirect(url_for("home", message = "Awesome, new entry for " + storyTitle + " submitted!"))
 	else:
 		storyTitle = request.args.get('title')
 		return render_template('newentry.html', title = "New Entry", story = storyTitle)
@@ -59,7 +59,7 @@ def newstory():
 		title = request.form['title']
 		story = request.form['story']
 		functions.newStory(title,story,session['username'],time.strftime("%Y-%m-%d %H:%M:%S"))
-		return render_template('home.html',message = "Awesome, you started a new story!")
+		return redirect(url_for('home', message = "Awesome, you started a new story!"))
 	else:
 		return render_template('newstory.html', title = "Create Story")
 	
