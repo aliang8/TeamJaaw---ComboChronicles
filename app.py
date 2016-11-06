@@ -8,6 +8,10 @@ f = 'data/stories.db'
 db = sqlite3.connect(f)
 c = db.cursor()
 
+@app.route("/", methods = ['POST','GET'])
+def new():
+	return render_template('home.html', title = "ComboChronicles", titles_stories = zip(functions.menuStories(10)[0], functions.menuStories(10)[2]))
+
 @app.route("/<message>", methods = ['POST','GET'])
 def home(message):	
 	return render_template('home.html', title = "ComboChronicles", message = message, titles_stories = zip(functions.menuStories(10)[0],functions.menuStories(10)[2]))
@@ -25,14 +29,14 @@ def authenticate():
 		if 'login' in request.form:
 			if functions.login(username,password):
 				session['username'] = username
-				return render_template('home.html',message = 'Login Successful')
+				return redirect(url_for("home",message = "Login Successful"))
 			else:
-				return render_template('home.html',message = 'Login Failed')
+				return redirect(url_for("home",message = "Login Failed"))
 		else:
 			if functions.register(username,password):
-				return render_template('home.html',message = 'Registration Successful')
+				return redirect(url_for("home",message = "Registration Successful"))
 			else:
-				return render_template('home.html',message = 'Registration Failed')
+				return redirect(url_for("home",message = "Registration Failed"))
 	else:
 		return redirect(url_for("login"))
 	
