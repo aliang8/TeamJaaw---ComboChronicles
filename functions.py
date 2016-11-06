@@ -156,7 +156,7 @@ def myStoryList(username):
 		if entry:
 			allTitles.append(entry[1]) #First (and only) entry fetch. fetch[1] = title
 
-	return (allTitles, allStories, allContributors,)
+	return (allTitles, allStories, allContributors, myStories)
 
 def myStoryListID(username):
 	db = sql.connect(STORIES)
