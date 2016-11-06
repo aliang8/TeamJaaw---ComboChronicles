@@ -138,7 +138,7 @@ def returnFinished(sortOrder):
 def returnLastEntry(storyid):
 	db = sql.connect(STORIES)
 	c = db.cursor()
-	data = c.execute("SELECT * FROM entries WHERE entries.storyid == ? ORDER BY timestamp DES", (storyid))
+	data = c.execute("SELECT * FROM entries WHERE entries.storyid == ? ORDER BY timestamp DESC", (storyid,))
 	entry = data.fetchone()
 	return entry
 #==============================================================================================================================================
