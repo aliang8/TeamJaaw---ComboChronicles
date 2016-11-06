@@ -15,8 +15,8 @@
 
 	<center>
 		<h3> Your Stories </h3>
-   		{%for title,id in userstories%}
-   		<a href="/stories/{{id}}">{{title}}</a>
+   		{%for key in userstories%}
+   		<a href="/newentry/{{key}}">{{userstories[key]}}</a>
    		<br>
 		{%endfor%}
 
@@ -40,7 +40,7 @@
 
 		<h3> Their Stories </h3>
    		{%for key in userstories%}
-   		<a href="/stories/{{key}}">{{userstories[key]}}</a>
+   		<a href="/newentry/{{key}}">{{userstories[key]}}</a>
    		<br>
 		{%endfor%}
 

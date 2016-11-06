@@ -45,17 +45,30 @@ def logout():
         session.pop('username')
 	return redirect(url_for("home", message = "Successfully logged out"))
 
-@app.route("/newentry/", methods=['GET','POST'])
-def newentry():
+# @app.route("/newentry/", methods=['GET','POST'])
+# def newentry():
+# 	if request.method == 'POST':
+# 		storyTitle = request.form.keys()[1]
+# 		storyID = functions.getstoryID(storyTitle)
+# 		entry = request.form['entry']
+# 		functions.newEntry(storyID,entry,session['username'],time.strftime("%Y-%m-%d %H:%M:%S"))
+# 		return redirect(url_for("home", message = "Awesome, new entry for " + storyTitle + " submitted!"))
+# 	else:
+# 		storyTitle = request.args.get('title')
+# 		return render_template('newentry.html', title = "New Entry", story = storyTitle)
+
+@app.route("/newentry/<storyid>", methods=['GET','POST'])
+def newentry(storyid):
 	if request.method == 'POST':
 		storyTitle = request.form.keys()[1]
-		storyID = functions.getstoryID(storyTitle)
+		storyID = storyid
 		entry = request.form['entry']
 		functions.newEntry(storyID,entry,session['username'],time.strftime("%Y-%m-%d %H:%M:%S"))
 		return redirect(url_for("home", message = "Awesome, new entry for " + storyTitle + " submitted!"))
 	else:
 		storyTitle = request.args.get('title')
 		return render_template('newentry.html', title = "New Entry", story = storyTitle)
+
 
 @app.route("/newstory/", methods=['GET','POST'])
 def newstory():
@@ -73,12 +86,11 @@ def posts():
 	
 @app.route("/account/")
 def account():
-	storyList = functions.myStoryList(session['username'])
-	return render_template('account.html', title = "My Account", userstories = zip(storyList[0],storyList[3]))
+	return render_template('account.html', title = "My Account", userstories = functions.myStoryListDict(session['username']))
 
 @app.route('/user/<username>/')
 def show_user_profile(username):
-	return render_template('account.html', title =  username+ "'s Account", user = username);
+	return render_template('account.html', title =  username+ "'s Account", user = username, userstories = functions.myStoryListDict(user))
 
 @app.route('/story/<int:post_id>/')
 def show_post(post_id):

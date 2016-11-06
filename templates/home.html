@@ -56,7 +56,7 @@
 			<div class = "feed_wrapper">
 			<h2>Popular Stories</h2>
 			{% for title,story in titles_stories %}
-			<a href = "{{url_for ('newentry', title = title)}}"><h3>{{title}}</h3></a>
+			<a href = "{{url_for ('newentry', storyid = 16)}}"><h3>{{title}}</h3></a>
 			<b>{{story}}</b>
 			<hr>
 			{% endfor %}
