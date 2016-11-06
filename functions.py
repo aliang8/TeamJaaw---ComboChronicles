@@ -14,6 +14,14 @@ def initializeTables():
 	db.commit()
 	db.close()
 
+def getstoryID(title):
+	db = sql.connect(STORIES)
+	c = db.cursor()
+	id = c.execute("SELECT storyid FROM stories WHERE title = ?" , (title,))
+	return id.fetchone()[0]
+
+
+
 #=============================================================AUTHENTICATION==================================================================
 def register(username, password):
     hashpass = hashlib.sha224(password).hexdigest()
@@ -222,4 +230,4 @@ def libraryStoriesDict():
 
 
 print menuStories(2)
-
+print getstoryID('hi')

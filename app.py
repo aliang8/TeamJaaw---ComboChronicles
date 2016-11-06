@@ -50,6 +50,7 @@ def newentry():
 		functions.newEntry(storyID,entry,sessions['username'],time.strftime("%Y-%m-%d %H:%M:%S"))
 		return redirect(url_for("newentry"))
 	else:
+		storyTitle = request.args.get('title')
 		return render_template('newentry.html', title = "New Entry", story = storyTitle)
 
 @app.route("/newstory/", methods=['GET','POST'])
