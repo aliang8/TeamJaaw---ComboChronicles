@@ -45,9 +45,23 @@ border:none;
 padding: 5px 5px;
 
 }
+
 #zoom:hover
 {
 margin:-5px 0 0 -5px;
 height:29px;
 width:250px;
+}
+
+.displayarea {
+    width: 375px;
+    height: 150px;
+    padding: 6px 10px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    background-color: #f8f8f8;
+    resize: none;
+    outline:0px !important;
+    -webkit-appearance:none;
 }

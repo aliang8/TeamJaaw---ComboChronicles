@@ -109,6 +109,7 @@ def about():
 @app.route("/story/<storyid>/<storytitle>/", methods=['GET','POST'])
 def story(storyid, storytitle):
 	contentlist = functions.returnStoryInfo(storyid)
+	howmany = functions.returnNumEntries(storyid)
 	contents = contentlist[0]
 	users = contentlist[1]
 	times = contentlist[2]
