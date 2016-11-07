@@ -47,7 +47,6 @@ def logout():
 
 @app.route("/newentry/<int:storyid>/<storytitle>/", methods=['GET','POST'])
 def newentry(storyid, storytitle):
-	print session['username']
 	if storyid in functions.returnContributed(session['username']):
 	 	return redirect(url_for("story", storyid = storyid, storytitle = storytitle))
 	if request.method == 'POST':
@@ -92,7 +91,6 @@ def show_user_profile(username):
 
 @app.route("/library/", methods=['GET','POST'])
 def library():
-	print functions.returnFinished('storyid')
 	return render_template('library.html', title = "Library", stories = functions.libraryStoriesDict())
 
 @app.route("/library/<sort>", methods=['GET','POST'])

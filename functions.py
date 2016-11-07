@@ -54,7 +54,6 @@ def changePass(username,oldpass,newpass):
         db = sql.connect(STORIES)
         c = db.cursor()
 	exists = login(username,oldpass)
-	print exists
 	if exists:
 		c.execute("UPDATE accounts SET password = ? WHERE username = ?", (hashnewpass,username,))
 		db.commit()
@@ -273,7 +272,6 @@ def libraryStoriesDict():
 	list = c.execute(timeStories)
 	storyDict = []
 	for i in list:
-		print i
 		storyDict.append(i)
 	return storyDict
 
@@ -299,9 +297,3 @@ def storyExists(title):
 		return True
 
 #=============================================================================================================================================
-
-
-
-print [2 in returnContributed('anthony')]
-print returnNumEntries(2)
-print returnStoryInfo(2)
