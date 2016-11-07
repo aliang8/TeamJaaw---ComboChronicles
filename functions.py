@@ -131,7 +131,7 @@ def returnContributors(storyid):
 def returnLatest(numStories):
 	db = sql.connect(STORIES)
 	c = db.cursor()
-	data = c.execute("SELECT DISTINCT storyid FROM entries ORDER BY timestamp DESC LIMIT ?" , (numStories,))
+	data = c.execute("SELECT DISTINCT storyid FROM entries ORDER BY entries.entryID DESC LIMIT ?" , (numStories,))
 	stories = []
 	for item in data:
 		stories.append(item[0])
