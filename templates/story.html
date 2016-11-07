@@ -4,15 +4,15 @@
 
 {% block content %}
 <center>
-<h1><b>{{story}}</b></h1>
+<h3>{{story}}</h3>
 </center>
-
-<br>
 <center>
 {% for entries in list %}
-<textarea readonly>
+
+
+<div class="libstory_wrapper">
 {{entries[0]}}
-</textarea>
+</div>
 <br>
 		by <b>{{entries[1]}}</b> at <i>{{entries[2]}}</i>
 <br>

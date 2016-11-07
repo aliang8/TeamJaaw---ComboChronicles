@@ -51,10 +51,14 @@
                 <center>
                 <h3> Stories </h3>
                 {%for story in stories%}
-                <div class="libstory_wrapper">
-                <a href="/story/{{story[0]}}/{{story[1]}}">{{story[1]}}</a>
+                <a href="/story/{{story[0]}}/{{story[1]}}">
+                	<div class="libstory_wrapper">
+                		{{story[1]}}
+                	</div>
+                </a>
+                
                 <br>
-                </div>
+          
                 {%endfor%}
                 </center>
 	{% endif %}
