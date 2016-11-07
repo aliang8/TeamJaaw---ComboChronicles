@@ -91,7 +91,7 @@ def returnNumEntries(storyid):
 	db = sql.connect(STORIES)
 	c = db.cursor()
 	count = 0
-	data = c.execute("SELECT content FROM entries WHERE entries.storyid = ?" , (storyid,))
+	data = c.execute("SELECT * FROM entries WHERE entries.storyid = ?" , (storyid,))
 	for row in data:
 		count+=1
 	return count
@@ -145,7 +145,7 @@ def returnFinished(sortOrder):
 	storyList = []
 	for story in stories:
 		l = list(c2.execute("SELECT * FROM entries WHERE entries.storyid == ?" , story))
-		if len(l) >= 5:
+		if len(l) >= 10:
 			storyList.append(story[0])
 	return storyList
 
@@ -235,15 +235,16 @@ def menuStories(numStories):
 	latestTitles = []
 	latestTimes = []
 	for story in latestStories:
-		data = c.execute("SELECT * FROM entries WHERE entries.storyid == ? ORDER BY entryID DESC" , (story,))
-		entry = data.fetchone()
-		if entry:
-			latestEntries.append(entry[1]) #Entry[1] = content
-			latestTimes.append(entry[4])
-		data = c.execute("SELECT * FROM stories WHERE stories.storyid == ?" , (story,))
-		entry = data.fetchone()
-		if entry:
-			latestTitles.append(entry[1]) #Entry[1] = title
+		if returnNumEntries(story) < 10:
+			data = c.execute("SELECT * FROM entries WHERE entries.storyid == ? ORDER BY entryID DESC" , (story,))
+			entry = data.fetchone()
+			if entry:
+				latestEntries.append(entry[1]) #Entry[1] = content
+				latestTimes.append(entry[4])
+			data = c.execute("SELECT * FROM stories WHERE stories.storyid == ?" , (story,))
+			entry = data.fetchone()
+			if entry:
+				latestTitles.append(entry[1]) #Entry[1] = title
 	return (latestTitles, latestStories, latestEntries,latestTimes,)
 
 

@@ -115,5 +115,5 @@ def story(storyid, storytitle):
 
 if __name__ == "__main__":
 	app.debug = True
-	app.run()
 	functions.initializeTables()
+	app.run()
