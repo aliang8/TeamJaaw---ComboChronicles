@@ -7,18 +7,25 @@
 {% block content %}
 
 	<center>
-	<h1>Welcome to the Library</h1>
-		See all the finished stories in one place!
-		<br>
-		<br>
+	<h2>Welcome to the Library</h2>
+		<b>See all the finished stories in one place!</b>
+		<hr>
 	<b>Sort By</b>
-	<form action = "/library/alpha" method = "POST">
+	<section>
+    <div id="one">
+    <form action = "/library/alpha" method = "POST">
 	    <input type="submit" name = "sort" value = "Alphabetical">
 	</form>
-	
-	<form action = "/library/time" method = "POST">
+    </div>
+    <div id="two">
+    <form action = "/library/time" method = "POST">
 	    <input type="submit" name = "sort" value = "Date/Time">
 	</form>	 
+    </div>
+	</section>
+	
+	
+	
 	</center>
 	{% if mode == 0 %}
 				<br>
@@ -26,10 +33,15 @@
                 <center>
                 <h3> Stories </h3>
                 {%for story in stories%}
-                <div class="libstory_wrapper">
-                <a href="/story/{{story[0]}}/{{story[1]}}">{{story[1]}}</a>
+                
+                <a href="/story/{{story[0]}}/{{story[1]}}">
+                	<div class="libstory_wrapper">
+                		{{story[1]}}
+                	</div>
+                </a>
+                
                 <br>
-                </div>
+                
                 {%endfor%}
                 </center>
 	{% endif %}
