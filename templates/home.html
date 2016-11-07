@@ -3,7 +3,7 @@
 {% block homeact %}class="active"{% endblock %}
 
 {% block content %}
-	<center><h1>ComboChronicles</h1></center>
+	<center><h2>ComboChronicles</h2></center>
 	
 	{% if 'username' not in session %}
 		<center>
@@ -16,7 +16,8 @@
 			<th>
 			<center>
 			<div class = "feed_wrapper">
-			<h2>Popular Stories</h2>
+			<br>
+			<h3>Popular Stories</h3>
 			{% for title,id,content,time in titles_stories %}
 			<a href = "{{url_for ('login')}}"><h3>{{title}}</h3></a>
 			{{content}} 
@@ -29,19 +30,22 @@
 			</th>
 			<th>
 				<div class = "start_wrapper">
-				<h2>Get started!</h2>
-				<h3>{{message}}</h3>
+				<center>
+				<br>
+				<h3>Get started!</h3>
+				<h4>{{message}}</h4>
 				<br>
 				<form action="/login/" method="POST">
-				  <input type = "submit" name = "log" value = "Login">
+				  <input class = "button special" type = "submit" name = "log" value = "Login">
 				  <br>
 				  <br>
 				  Don't have an account yet?
 				  <br>
 				  <br>
-				  <input type = "submit" name = "reg" value = "Register">
+				  <input class = "button special" type = "submit" name = "reg" value = "Register">
 				  <br>
 				</form>
+				</center>
 				</div>
 			</th>
 
