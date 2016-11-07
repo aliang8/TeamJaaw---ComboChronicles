@@ -6,8 +6,9 @@
 
 {% if 'username' in session%}
 <center>
-<h1> New Entry for <i>{{story}}</i></h1>
+<h3> New Entry for <i>{{story}}</i></h3>
 
+<div class="6u (xsmall)">
 <form action = "/newentry/{{id}}/{{story}}/" method = "POST">
 <i>{{content}}</i>
 <br>
@@ -20,13 +21,14 @@
   <br>
   <input type="submit" value = "Submit Addition" name = "{{story}}">
 </form>
+</div>
 </center>
 {% endif %}
 
 {% if numentries = 10 %}
 <center>
 <br>
-<b>This will be the final contribution to this story!</b>
+<h4>This will be the final contribution to this story!</h4>
 </center>
 {% endif %}
 

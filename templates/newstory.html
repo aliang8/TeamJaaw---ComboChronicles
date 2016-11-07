@@ -5,17 +5,16 @@
 {% block content %}
 
 	<center>
-	<h1> Start a New Story </h1>
-	<div class = "nstory_wrapper">
+	<h3> Start a New Story </h3>
+	<div class="6u (xsmall)">
 	{{message}}
 	<br>
-	</div>
 
 	<form action = "/newstory/" method = "POST">
-		Title<br>
+		<b>Title</b><br>
 		<input type="text" name="title"><br>
 		<br>
-		Story<br>
+		<b>Story</b><br>
 <textarea name="story"  maxlength="650" rows="10" cols="60">
 {{content}}
 </textarea>

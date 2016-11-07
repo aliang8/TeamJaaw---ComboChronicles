@@ -11,25 +11,27 @@
 		</center>
 
 
-		<table style="width:100%", id="frontcols">
+		<table style="width:100%">
 		<tr>
-			<th>
+			<th style="width:65%">
 			<center>
-			<div class = "feed_wrapper">
+			<div class="">
 			<br>
 			<h3>Popular Stories</h3>
+			<hr style="width:25%">
 			{% for title,id,content,time in titles_stories %}
 			<a href = "{{url_for ('login')}}"><h3>{{title}}</h3></a>
 			{{content}} 
 			<br>
-			<i>Updated: {{time}}</i>
+			<br>
+			<i>Last Submission: {{time}}</i>
 			<hr>
 			{% endfor %}
 			</div>
 			</center>
 			</th>
-			<th>
-				<div class = "start_wrapper">
+			<th style="width:35%; border-left: thin solid lightgray;>
+				<div class="">
 				<center>
 				<br>
 				<h3>Get started!</h3>
@@ -57,24 +59,27 @@
 	{% if 'username' in session %}
 		<table style="width:100%", id="frontcols">
 		<tr>
-			<th>
+			<th style="width:65%">
 			<center>
 			<div class = "feed_wrapper">
 			<h2>Popular Stories</h2>
+			<hr style="width:25%">
 			{% for title,id,content,time in titles_stories %}
 			<a href = "newentry/{{id}}/{{title}}"><h3>{{title}}</h3></a>
 			{{content}} 
 			<br>
-			<i>Updated: {{time}}</i>
+			<br>
+			<i>Last Submission: {{time}}</i>
 			<hr>
 			{% endfor %}
 			</div>
 			</center>
 				
 			</th>
-			<th>
+			<th style="width:35%; border-left: thin solid lightgray;">
 				<div class = "start_wrapper">
 				<center>
+					<br>
 					<h2>Start a Story</h2>
 					<h3> {{messagetop}} </h3>
 					<form action="/newstory/" method = "GET">
