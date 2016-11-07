@@ -11,19 +11,29 @@
 		See all the finished stories in one place!
 		<br>
 		<br>
-
-
 	<b>Sort By</b>
 	<form action = "/library/alpha" method = "POST">
 	    <input type="submit" name = "sort" value = "Alphabetical">
 	</form>
+	
 	<form action = "/library/time" method = "POST">
 	    <input type="submit" name = "sort" value = "Date/Time">
-	</form>
-	   
-    
-
+	</form>	 
 	</center>
+	{% if mode == 0 %}
+				<br>
+                <br>
+                <center>
+                <h3> Stories </h3>
+                {%for story in stories%}
+                <div class="libstory_wrapper">
+                <a href="/story/{{story[0]}}/{{story[1]}}">{{story[1]}}</a>
+                <br>
+                </div>
+                {%endfor%}
+                </center>
+	{% endif %}
+	{% if mode != 0 %}
 		<br>
 		<br>
 		<center>
@@ -35,6 +45,6 @@
    		</div>
 		{%endfor%}
 		</center>
-	
+	{% endif %}
 
 {% endblock %}

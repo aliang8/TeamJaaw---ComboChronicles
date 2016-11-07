@@ -96,7 +96,10 @@ def library():
 
 @app.route("/library/<sort>", methods=['GET','POST'])
 def libsort(sort):
-	return render_template('library.html', title = "Library", titles = functions.libraryStories()[0], entries = functions.libraryStories()[2])
+	if sort == "alpha":
+		return render_template('library.html', title = "Library", stories = functions.libraryStoriesDictAlpha(), mode = 0) 
+ 	else:
+		return render_template('library.html', title = "Library", stories = functions.libraryStoriesDict())
 
 @app.route("/about/", methods=['GET','POST'])
 def about():

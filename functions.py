@@ -277,6 +277,17 @@ def libraryStoriesDict():
 		storyDict[story] = title[1]
 	return storyDict
 
+def libraryStoriesDictAlpha():
+	db = sql.connect(STORIES)
+	c = db.cursor()
+	dict = []
+	sF = str(tuple(returnFinished('storyid')))
+	top = "SELECT * FROM stories WHERE storyid in " + sF + "ORDER BY title COLLATE NOCASE"
+	alphaOrder = c.execute(top)
+	for i in alphaOrder:
+		dict.append(i)
+	return dict	
+
 def storyExists(title):
 	db = sql.connect(STORIES)
 	c = db.cursor()
