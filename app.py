@@ -75,10 +75,9 @@ def newstory():
 @app.route("/account/", methods=['GET','POST'])
 def account():
 	if request.method == 'POST':
-		username = request.form['user']
 		oldpass = request.form['oldpass']
 		newpass = request.form['newpass']
-		if functions.changePass(username,oldpass,newpass):
+		if functions.changePass(session['username'],oldpass,newpass):
 			return render_template('account.html', title = "My Account", userstories = functions.myStoryListDict(session['username']), message = "Successfully changed password")
 		else:
 			return render_template('account.html', title = "My Account", userstories = functions.myStoryListDict(session['username']), message = "Password change failed")
