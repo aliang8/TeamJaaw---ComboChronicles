@@ -6,9 +6,10 @@
 
 {% if 'username' in session%}
 <center>
-<h3> New Entry for <i>{{story}}</i></h3>
-
 <div class="6u (xsmall)">
+<h3>{{story}}</h3>
+
+
 <form action = "/newentry/{{id}}/{{story}}/" method = "POST">
 <i>{{content}}</i>
 <br>
@@ -25,7 +26,7 @@
 </center>
 {% endif %}
 
-{% if numentries = 10 %}
+{% if numentries == 10 %}
 <center>
 <br>
 <h4>This will be the final contribution to this story!</h4>
