@@ -269,9 +269,14 @@ def libraryStories():
 def libraryStoriesDict():
 	db = sql.connect(STORIES)
 	c = db.cursor()
-	timeStories = "SELECT * FROM stories WHERE storyid in " + str(tuple(returnFinished('storyid'))) + "ORDER BY storyid ASC"
+	tup = tuple(returnFinished('storyid'))
+	if len(tup) == 1:
+		strtup = str(tup).replace(",","")
+	else:
+		strtup = str(tup)
+	timeStories = "SELECT * FROM stories WHERE storyid in " + strtup + "ORDER BY storyid ASC"
 	list = c.execute(timeStories)
-	storyDict = []
+       	storyDict = []
 	for i in list:
 		storyDict.append(i)
 	return storyDict
@@ -280,8 +285,12 @@ def libraryStoriesDictAlpha():
 	db = sql.connect(STORIES)
 	c = db.cursor()
 	dict = []
-	sF = str(tuple(returnFinished('storyid')))
-	top = "SELECT * FROM stories WHERE storyid in " + sF + "ORDER BY title COLLATE NOCASE"
+	tup = tuple(returnFinished('storyid'))
+	if len(tup) == 1:
+		strtup = str(tup).replace(",","")
+	else:
+		strtup = str(tup)
+	top = "SELECT * FROM stories WHERE storyid in " + strtup + "ORDER BY title COLLATE NOCASE"
 	alphaOrder = c.execute(top)
 	for i in alphaOrder:
 		dict.append(i)
