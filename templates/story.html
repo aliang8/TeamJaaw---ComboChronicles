@@ -7,14 +7,14 @@
 <h1><b>{{story}}</b></h1>
 </center>
 
-{{content}}
+{{list}}
 
-{{users}}
 <br>
-{% for entries in content %}
-{{entries}}<br>
-{{thing1}}
-{{thing2}}
+{% for entries in list %}
+<textarea class = "display" readonly>
+{{entries[loop.index0]}}
+</textarea>
+		by <b>{{entries[loop.index1]}}</b> at <i>{{entries[loop.index2]}}</i>
 {% endfor %}
 <br>
 

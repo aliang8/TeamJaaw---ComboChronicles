@@ -108,7 +108,11 @@ def about():
 
 @app.route("/story/<storyid>/<storytitle>/", methods=['GET','POST'])
 def story(storyid, storytitle):
-	return render_template("story.html", id = storyid, story = storytitle, content = functions.returnStory(storyid))
+	contentlist = functions.returnStoryInfo(storyid)
+	contents = contentlist[0]
+	users = contentlist[1]
+	times = contentlist[2]
+	return render_template("story.html", id = storyid, story = storytitle, list = zip(contents, users, times))
 
 if __name__ == "__main__":
 	app.debug = True 
