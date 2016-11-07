@@ -86,7 +86,7 @@ def account():
 
 @app.route('/user/<username>/')
 def show_user_profile(username):
-	return render_template('account.html', title =  username+ "'s Account", user = username, userstories = functions.myStoryListDict(user))
+	return render_template('account.html', title =  username+ "'s Account", user = username, userstories = functions.myStoryListDict(username))
 
 
 @app.route("/library/", methods=['GET','POST'])
