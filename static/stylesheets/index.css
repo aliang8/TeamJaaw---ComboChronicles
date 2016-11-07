@@ -68,6 +68,8 @@ div#two {
     border: thin solid lightgray;
     padding: 10px;
     border-radius: 3px;
+    text-decoration: none;
+    font-weight: bold;
 }
 
 .libstory_wrapper:hover {
