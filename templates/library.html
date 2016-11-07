@@ -34,17 +34,17 @@
                 </center>
 	{% endif %}
 	{% if mode != 0 %}
-		<br>
-		<br>
-		<center>
-		<h3> Stories </h3>
-   		{%for key in stories%}
-   		<div class="libstory_wrapper">
-   		<a href="/story/{{key}}/{{stories[key]}}">{{stories[key]}}</a>
-   		<br>
-   		</div>
-		{%endfor%}
-		</center>
+				<br>
+                <br>
+                <center>
+                <h3> Stories </h3>
+                {%for story in stories%}
+                <div class="libstory_wrapper">
+                <a href="/story/{{story[0]}}/{{story[1]}}">{{story[1]}}</a>
+                <br>
+                </div>
+                {%endfor%}
+                </center>
 	{% endif %}
 
 {% endblock %}

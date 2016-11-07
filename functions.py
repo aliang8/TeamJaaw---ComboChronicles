@@ -269,12 +269,12 @@ def libraryStories():
 def libraryStoriesDict():
 	db = sql.connect(STORIES)
 	c = db.cursor()
-	allStories = returnFinished('storyid')
-	storyDict = {}
-	for story in allStories:
-		title = c.execute("SELECT * FROM stories WHERE storyid == ? ORDER BY storyid ASC", (story,))
-		title = title.fetchone()
-		storyDict[story] = title[1]
+	timeStories = "SELECT * FROM stories WHERE storyid in " + str(tuple(returnFinished('storyid'))) + "ORDER BY storyid ASC"
+	list = c.execute(timeStories)
+	storyDict = []
+	for i in list:
+		print i
+		storyDict.append(i)
 	return storyDict
 
 def libraryStoriesDictAlpha():

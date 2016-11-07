@@ -92,6 +92,7 @@ def show_user_profile(username):
 
 @app.route("/library/", methods=['GET','POST'])
 def library():
+	print functions.returnFinished('storyid')
 	return render_template('library.html', title = "Library", stories = functions.libraryStoriesDict())
 
 @app.route("/library/<sort>", methods=['GET','POST'])
