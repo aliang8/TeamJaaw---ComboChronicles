@@ -1,7 +1,7 @@
 import random, functions, hashlib, sqlite3, time
 from flask import Flask, render_template, session, redirect, url_for, request
 
-app = Flask(__name__) 
+app = Flask(__name__)
 app.secret_key = '\xe9$=P\nr\xbc\xcd\xa5\xe5I\xba\x86\xeb\x81L+%,\xcb\xcb\xf46d\xf9\x99\x1704\xcd(\xfc'
 
 f = 'data/stories.db'
@@ -13,8 +13,8 @@ def new():
 	return render_template('home.html', title = "ComboChronicles", titles_stories = zip(functions.menuStories(10)[0], functions.menuStories(10)[1], functions.menuStories(10)[2], functions.menuStories(10)[3]))
 
 @app.route("/<message>", methods = ['POST','GET'])
-def home(message):	
-	return render_template('home.html', title = "ComboChronicles", message = message, titles_stories = zip(functions.menuStories(10)[0], functions.menuStories(10)[1], functions.menuStories(10)[2], functions.menuStories(10)[3])) 
+def home(message):
+	return render_template('home.html', title = "ComboChronicles", message = message, titles_stories = zip(functions.menuStories(10)[0], functions.menuStories(10)[1], functions.menuStories(10)[2], functions.menuStories(10)[3]))
 
 @app.route("/login/", methods = ['POST','GET'])
 def login():
@@ -39,15 +39,16 @@ def authenticate():
 				return redirect(url_for("home",message = "Registration Failed"))
 	else:
 		return redirect(url_for("login"))
-	
+
 @app.route("/logout/")
 def logout():
 	session.pop('username')
 	return redirect(url_for("home", message = "Successfully logged out"))
 
-@app.route("/newentry/<storyid>/<storytitle>/", methods=['GET','POST'])
+@app.route("/newentry/<int:storyid>/<storytitle>/", methods=['GET','POST'])
 def newentry(storyid, storytitle):
-	if [storyid in functions.returnContributed(session['username'])]:
+	print session['username']
+	if storyid in functions.returnContributed(session['username']):
 	 	return redirect(url_for("story", storyid = storyid, storytitle = storytitle))
 	if request.method == 'POST':
 			storyTitle = storytitle
@@ -70,7 +71,7 @@ def newstory():
 		return redirect(url_for('home', message = "Awesome, you started a new story!"))
 	else:
 		return render_template('newstory.html', title = "Create Story")
-	
+
 @app.route("/account/", methods=['GET','POST'])
 def account():
 	if request.method == 'POST':
@@ -80,10 +81,10 @@ def account():
 		if functions.changePass(username,oldpass,newpass):
 			return render_template('account.html', title = "My Account", userstories = functions.myStoryListDict(session['username']), message = "Successfully changed password")
 		else:
-			return render_template('account.html', title = "My Account", userstories = functions.myStoryListDict(session['username']), message = "Password change failed") 
+			return render_template('account.html', title = "My Account", userstories = functions.myStoryListDict(session['username']), message = "Password change failed")
 	else:
-		return render_template('account.html', title = "My Account", userstories = functions.myStoryListDict(session['username'])) 
-			
+		return render_template('account.html', title = "My Account", userstories = functions.myStoryListDict(session['username']))
+
 
 @app.route('/user/<username>/')
 def show_user_profile(username):
@@ -98,7 +99,7 @@ def library():
 @app.route("/library/<sort>", methods=['GET','POST'])
 def libsort(sort):
 	if sort == "alpha":
-		return render_template('library.html', title = "Library", stories = functions.libraryStoriesDictAlpha(), mode = 0) 
+		return render_template('library.html', title = "Library", stories = functions.libraryStoriesDictAlpha(), mode = 0)
  	else:
 		return render_template('library.html', title = "Library", stories = functions.libraryStoriesDict())
 
@@ -106,7 +107,7 @@ def libsort(sort):
 def about():
 	return render_template('about.html', title = "About")
 
-@app.route("/story/<storyid>/<storytitle>/", methods=['GET','POST'])
+@app.route("/story/<int:storyid>/<storytitle>/", methods=['GET','POST'])
 def story(storyid, storytitle):
 	contentlist = functions.returnStoryInfo(storyid)
 	howmany = functions.returnNumEntries(storyid)
@@ -116,6 +117,6 @@ def story(storyid, storytitle):
 	return render_template("story.html", id = storyid, story = storytitle, list = zip(contents, users, times))
 
 if __name__ == "__main__":
-	app.debug = True 
+	app.debug = True
 	app.run()
 	functions.initializeTables()

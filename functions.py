@@ -286,7 +286,7 @@ def libraryStoriesDictAlpha():
 	alphaOrder = c.execute(top)
 	for i in alphaOrder:
 		dict.append(i)
-	return dict	
+	return dict
 
 def storyExists(title):
 	db = sql.connect(STORIES)
