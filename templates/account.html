@@ -4,8 +4,6 @@
 
 {% block content %}
 
-	{% if user == 'username'%}
-
 	<center>
 	<h2>Welcome to Your Account</h2>
 		{{message}}
@@ -43,27 +41,6 @@
  		  <input type="submit" name = "changepass" value = "Change Password">
  		  </div>
 	</center>
-
-	{% endif %}
-
-	{% if user != 'username' %}
-	<center>
-	<h2> {{user}}'s Account </h2>
-
-		<h3> Their Stories </h3>
-   		{%for key in userstories%}
-   		<a href="/story/{{key}}/{{userstories[key]}}">
-                	<div class="libstory_wrapper">
-                		{{userstories[key]}}
-                	</div>
-                </a>
-                
-                <br>
-		{%endfor%}
-
-	</center>
-
-	{% endif %}
 
 
 
